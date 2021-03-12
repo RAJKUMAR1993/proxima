@@ -8,7 +8,7 @@
                     <h3 class="text-themecolor mb-0">Sub Menus</h3>
                     <ol class="breadcrumb mb-0 p-0 bg-transparent">
                         <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>admin/dashboard">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>admin/menus">Sub Menus</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>admin/menus/updatefootersubmenu">Sub Menus</a></li>
                     </ol>
                 </div>
             </div>
@@ -91,4 +91,14 @@
                  
       
 <?php admin_footer(); ?> 
+ <? 
+$menu_types = explode(",",$sm->menu_type);
+?>
 
+<script>
+				  
+$(".select2").select2();
+$(".select2").val(<? echo json_encode($menu_types) ?>).trigger("change")	
+	
+	
+</script>

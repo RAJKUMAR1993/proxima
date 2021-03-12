@@ -10,56 +10,55 @@ class Podcast extends MY_Controller {
 
 	public function index(){
         $data["slider"] = $this->db->get_where("tbl_podcast_slider",array("deleted"=> 0))->result();
-		$this->load->view('admin/podcast/podcast_sliders', $data);	
+		$this->load->view('admin/slider/podcast_sliders', $data);	
 		
 	}
+
     public function add(){
-        $slider_id = $this->input->post("slider_id");
-        $name = $this->input->post("name");
-		$deatils = $this->input->post("deatils");
-        $short_desc = $this->input->post("short_desc");
+        $name = $this->input->post("desingnation");
+		$page_name = $this->input->post("page_name");
+		$types = $this->input->post("types");
+		$short_desc = $this->input->post("short_desc");
+		$button_name = $this->input->post("button_name");
+		$link = $this->input->post("link");
         $date = date("Y-m-d H:i:s");
-		if($_FILES['slider']['name'] != ""){
+		if($_FILES['image']['name'] != ""){
 			$config['upload_path'] = 'uploads/podcast/';
 			$config['allowed_types'] = '*';
-			$config['file_name'] = $_FILES['slider']['name'];				 
-
+			$config['file_name'] = $_FILES['image']['name'];				 
 			$this->load->library('upload',$config);
 			$this->upload->initialize($config);
-
-			if($this->upload->do_upload('slider')){
+			if($this->upload->do_upload('image')){
 				$uploadData = $this->upload->data();
 				$picture = 'uploads/podcast/'.$uploadData['file_name'];
-					unlink($this->input->post("old_slider"));
+					//unlink($this->input->post("old_image"));
 				}
-			}else{
-					$picture = $this->input->post("old_slider");
-			
+	
 		}
+		
         $data = array(
             "image" => $picture,
 			"name"=>$name,
-			"deatils"=> $deatils,
+			"type"=>$types,
+			"page_name"=>$page_name,
+			"button_name"=>$button_name,
+			"link"=>$link,
 			"short_desc" => $short_desc,
             "created_date"=> $date,
-			
         );
-        if($slider_id){
-			$d = $this->db->where("id",$slider_id)->update("tbl_podcast_slider",$data);	
-		}else{
+	
 			$d = $this->db->insert("tbl_podcast_slider",$data);
-		}
         if($d){
-			if($slider_id){
-				$this->alert->pnotify("smsg",'Updated Successfully');
+			if($d){
+				$this->session->set_flashdata("smsg",'Updated Successfully');
 			}else{
-				$this->alert->pnotify("smsg",'Added Successfully');	
+				$this->session->set_flashdata("smsg",'Added Successfully');	
 			}
 			redirect("admin/podcast");
 			
 		}else{
 			
-			$this->alert->pnotify("emsg",'Error Occured');	
+			$this->session->set_flashdata("emsg",'Error Occured');	
 			redirect("admin/podcast");
 			
 		}
@@ -68,53 +67,60 @@ class Podcast extends MY_Controller {
 				
         $data["slider"] = $this->db->get_where("tbl_podcast_slider",array("id"=>$id))->row();
        
-        $this->load->view("admin/podcast/edit_slider",$data);
+        $this->load->view("admin/slider/edit_slider",$data);
     }
+
 	public function update(){
 		$id = $this->input->post("id");
-		$slider_id = $this->input->post("slider_id");
-        $name = $this->input->post("name");
-		$deatils = $this->input->post("deatils");
-        $short_desc = $this->input->post("short_desc");
-        $date = date("Y-m-d H:i:s");
-		if($_FILES['slider']['name'] != ""){
+		$name = $this->input->post("desingnation");
+		$page_name = $this->input->post("page_name");
+		$types = $this->input->post("types");
+		$short_desc = $this->input->post("short_desc");
+		$button_name = $this->input->post("button_name");
+		$link = $this->input->post("link");
+		$date = date("Y-m-d H:i:s");
+		//image upload//
+
+		if($_FILES['image']['name'] != ""){
 			$config['upload_path'] = 'uploads/podcast/';
 			$config['allowed_types'] = '*';
-			$config['file_name'] = $_FILES['slider']['name'];				 
+			$config['file_name'] = $_FILES['image']['name'];				 
 
 			$this->load->library('upload',$config);
 			$this->upload->initialize($config);
-
-			if($this->upload->do_upload('slider')){
+          
+			if($this->upload->do_upload('image')){
 				$uploadData = $this->upload->data();
 				$picture = 'uploads/podcast/'.$uploadData['file_name'];
-				
-					unlink($this->input->post("old_slider"));
-						
-				}
-			}else{
-					$picture = $this->input->post("old_slider");
-	
+				unlink($this->input->post("old_image"));
+			}
+		}else{
+					$picture = $this->input->post("old_image");
 		}
-
-		$data = array(
-            "image" => $picture,
-			"name"=>$name,
-			"deatils"=> $deatils,
-			"short_desc" => $short_desc,
-            "updated_date"=> $date,
-			
-        );
 		
-		 $this->db->where('id', $id);
+				$data = array(
+					"image" => $picture,
+					"name"=>$name,
+					"type"=>$types,
+					"page_name"=>$page_name,
+					"button_name"=>$button_name,
+					"link"=>$link,
+					"short_desc" => $short_desc,
+					"updated_date"=> $date,
+				);
+
+		//print_R($data);die;
+        $this->db->where('id', $id);
 		 $s = 	$this->db->update('tbl_podcast_slider', $data);
 		 if($s){
-			 $this->alert->pnotify("smsg"," Successfully Updated","smsg");
+			 $this->session->set_flashdata("smsg"," Successfully Updated","smsg");
 			 redirect("admin/podcast");
 		 }else{
-			 $this->alert->pnotify("emsg","Error Occured While Updating ","emsg");
+			 $this->session->set_flashdata("emsg","Error Occured While Updating ","emsg");
 			 redirect("admin/podcast");
 		 }
+
+
 
 	}
 
@@ -130,20 +136,20 @@ class Podcast extends MY_Controller {
 		$d=$this->db->update("tbl_podcast_slider");
 		if($d){
 			if($status=="Active"){
-				//$this->alert->pnotify("smsg",'Successfully  Enabled');
+				//$this->session->set_flashdata("smsg",'Successfully  Enabled');
 				echo $this->alert->pnotify("Success","Successfully Navbar Sub Menu Enabled","success");
 			}else{
-				//$this->alert->pnotify("smsg",'Successfully  Disabled');
+				//$this->session->set_flashdata("smsg",'Successfully  Disabled');
 				echo $this->alert->pnotify("Success","Successfully Navbar Sub Menu Disabled","success");	
 			}
 
 		}else{
 			if($status=="Active"){
 
-				//$this->alert->pnotify("emsg",'Error Occured While Enabling');
+				//$this->session->set_flashdata("emsg",'Error Occured While Enabling');
 				echo $this->alert->pnotify("Error","Error Occured While Enabling Navbar Sub Menu","error");
 			}else{
-				//$this->alert->pnotify("emsg",'Error Occured While Disabling');
+				//$this->session->set_flashdata("emsg",'Error Occured While Disabling');
 				echo $this->alert->pnotify("Error","Error Occured While Disabling Navbar Sub Menu","error");
 			}	
 		}
@@ -154,13 +160,13 @@ class Podcast extends MY_Controller {
 		
 		if($d){
 			
-			unlink($this->input->post("image"));
-			$this->alert->pnotify("smsg",'Deleted Successfully');	
+			//unlink($this->input->post("image"));
+			$this->session->set_flashdata("smsg",'Deleted Successfully');	
             redirect("admin/podcast");
 			
 		}else{
 			
-			$this->alert->pnotify("emsg",'Error Occured');	
+			$this->session->set_flashdata("emsg",'Error Occured');	
 			redirect("admin/podcast");
 			
 		}

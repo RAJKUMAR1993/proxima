@@ -93,21 +93,18 @@ class Blogs extends MY_Controller {
 			"blog_link" =>strtolower(($this->clean($title))),
 			"created_date" => date("Y-m-d H:i:s")
 		);
-	
+	//print_r($idata);die;
 		if($sid){
 			$id = $this->db->where("id",$sid)->update("tbl_blog",$idata);
-			
 		}else{
-			
 			$id = $this->db->insert("tbl_blog",$idata);
-			
 		}
 		if($id){
 			$status = ($sid) ? "Updated" : "Added";
-			$this->alert->pnotify("success","Successfully $status.","Success");
+			$this->session->set_flashdata("success","Successfully $status.","Success");
 			redirect("admin/blogs/");	
 		}else{
-			$this->alert->pnotify("error","Error occured","error");
+			$this->session->set_flashdata("error","Error occured","error");
 			redirect("admin/blogs/");	
 		}
 
@@ -124,15 +121,15 @@ class Blogs extends MY_Controller {
 		$d=$this->db->update("tbl_blog");
 		if($d){
 			if($status=="Active"){
-				$this->alert->pnotify("smsg",'Successfully  Enabled');
+				$this->session->set_flashdata("smsg",'Successfully  Enabled');
 			}else{
-				$this->alert->pnotify("smsg",'Successfully  Disabled');
+				$this->session->set_flashdata("smsg",'Successfully  Disabled');
 			}
 		}else{
 			if($status=="Active"){
-				$this->alert->pnotify("emsg",'Error Occured While Enabling');
+				$this->session->set_flashdata("emsg",'Error Occured While Enabling');
 			}else{
-				$this->alert->pnotify("emsg",'Error Occured While Disabling');
+				$this->session->set_flashdata("emsg",'Error Occured While Disabling');
 				
 			}	
 		}
@@ -144,12 +141,12 @@ class Blogs extends MY_Controller {
 		if($d){
 			
 			unlink($this->input->post("story_image"));
-			$this->alert->pnotify("smsg",'Deleted Successfully');	
+			$this->session->set_flashdata("smsg",'Deleted Successfully');	
 			redirect("admin/about/story");
 			
 		}else{
 			
-			$this->alert->pnotify("emsg",'Error Occured');	
+			$this->session->set_flashdata("emsg",'Error Occured');	
 			redirect("admin/about/story");
 			
 		}
@@ -188,10 +185,10 @@ class Blogs extends MY_Controller {
 		if($id){
 			$status = ($sid) ? "Updated" : "Added";
 			
-			$this->alert->pnotify("smsg",'Updated Successfully');
+			$this->session->set_flashdata("smsg",'Updated Successfully');
 			redirect("admin/blogs/categories");	
 		}else{
-			$this->alert->pnotify("emsg",'Error Occured');	
+			$this->session->set_flashdata("emsg",'Error Occured');	
 			redirect("admin/blogs/categories");	
 		}
 	 }
@@ -205,19 +202,19 @@ class Blogs extends MY_Controller {
 		$d=$this->db->update("tbl_categories");
 		if($d){
 			if($status=="Active"){
-				$this->alert->pnotify("smsg",'Successfully  Enabled');
+				$this->session->set_flashdata("smsg",'Successfully  Enabled');
 			
 			}else{
-				$this->alert->pnotify("smsg",'Successfully  Disabled');
+				$this->session->set_flashdata("smsg",'Successfully  Disabled');
 				
 			}
 
 		}else{
 			if($status=="Active"){
 
-				$this->alert->pnotify("emsg",'Error Occured While Enabling');
+				$this->session->set_flashdata("emsg",'Error Occured While Enabling');
 			
-				$this->alert->pnotify("emsg",'Error Occured While Disabling');
+				$this->session->set_flashdata("emsg",'Error Occured While Disabling');
 				
 			}	
 		}
@@ -230,12 +227,12 @@ class Blogs extends MY_Controller {
 		if($d){
 			
 			unlink($this->input->post("categories"));
-			$this->alert->pnotify("smsg",'Deleted Successfully');	
+			$this->session->set_flashdata("smsg",'Deleted Successfully');	
 			redirect("admin/blogs/categories");	
 			
 		}else{
 			
-			$this->alert->pnotify("emsg",'Error Occured');	
+			$this->session->set_flashdata("emsg",'Error Occured');	
 			redirect("admin/blogs/categories");	
 			
 		}

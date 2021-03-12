@@ -109,10 +109,14 @@
 
 
 							  <?php 
+
+
 								$img = $this->db->query("select * from tbl_gallery order by id desc")->result();
 								if(count($img) >= 1){ 
 								foreach ($img as $i) {
+
 							  ?>
+
 									   <div class="col-md-2" id="contents" class="image-wrapper">
 											<div class="card">
 												<div class="el-card-item" style="margin-bottom: -20px; padding-bottom: 0px;">

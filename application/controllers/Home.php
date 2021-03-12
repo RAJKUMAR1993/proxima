@@ -22,10 +22,14 @@ class Home extends CI_Controller {
 			$route = "home";
 		}
 		$data["page"] = $this->db->get_where("tbl_pages",array("route"=>$route))->row();
-	//	print_R($data["page"]);die;
-		$this->load->view("front/includes/header");
-		$this->load->view('admin/pages/viewPage',$data);
-		$this->load->view("front/includes/footer");	
+		
+		if($data["page"]){
+			$this->load->view("front/includes/header");
+			$this->load->view('admin/pages/viewPage',$data);
+			$this->load->view("front/includes/footer");	
+		}else{
+			redirect();
+		}
 	}
 
 }

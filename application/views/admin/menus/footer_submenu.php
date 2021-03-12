@@ -122,19 +122,18 @@
                                                   <?php } ?> 
                                               </td>
                                             </td>
-                                            <td>
-                                              <?php if($u->status=="Active"){ ?>
-                                                <div class="togglebutton bt-switch">
-                                                    <input type="checkbox" data-on-color="info" nav_id="<?php echo $u->id ?>" class="check"  name="switch" data-off-color="success"  checked>
-                                                </div>
-                                                <?php  }elseif($u->status=="Inactive"){ ?>
-                                                  <div class="togglebutton bt-switch">
-                                                    <label>
-                                                      <input type="checkbox" nav_id="<?php echo $u->id ?>"  data-on-color="info" class="check"  name="switch" data-off-color="success">
-                                                    </label>
-                                                  </div>
-                                                  <?php } ?> 
-                                              </td>
+                                            <td style="padding: 0.5rem;">
+                                                   
+                                                   <?php if($u->status=="Active"){ ?>
+                                               <div class="switch">
+                                                   <input type="checkbox" data-on-color="info" nav_id="<?php echo $u->id ?>" name="switch" data-off-color="success" class="check" checked>
+                                               </div>
+                                                   <?php  }elseif($u->status=="Inactive"){ ?>
+                                                <div class="switch">
+                                                    <input type="checkbox" nav_id="<?php echo $u->id ?>" data-on-color="info" name="switch" data-off-color="success" class="check">
+                                                   <?php } ?> 
+                                                </div>    
+                                                </td>
                                                 <td style="padding: 0.5rem;">
                                                       <a href="<?php echo base_url() ?>admin/menus/updatefootersubmenu/<?php echo $u->id ?>"  rel="tooltip" title="Edit menu">
                                                       <i class="ti-marker-alt"></i></a>
@@ -143,9 +142,6 @@
                                                         <!-- <a href="<?php //echo base_url() ?>menus/child-menu/<?php //echo $u->id ?>"><button class="btn btn-primary btn-sm">Child Menu</button></a> -->
 
                                                   </td> 
-                                                  <div class="rename">
-                                                <input type="hidden" name="nav_id" rel="<?php echo $u->id ?>" class="nav_id" value="<?php echo $u->id ?>">   
-                                                </div>
                                             </tr>
                                             <?php } ?>
                                             <?php  
@@ -162,8 +158,16 @@
         
       
 <?php admin_footer(); ?> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <script>
+    $(".select2").select2();	
+    $('.mul-select').selectpicker();
+</script>
+    <script>
+    $("[name='switch']").bootstrapSwitch({size : 'mini'});
+    
+</script>
 <script type="text/javascript">
 function archiveFunction(id) {
     //alert(id);
@@ -207,7 +211,7 @@ function archiveFunction(id) {
 $("input[type='checkbox']").bootstrapSwitch({size : 'mini'});
     
 $('#file_export').on('switchChange.bootstrapSwitch','input[name="switch"]', function (e, state) {
-     
+      
 	  var nav_id = $(this).attr("nav_id"); 
 
 		var status;

@@ -34,7 +34,7 @@ class Pages extends MY_Controller {
 	
 	public function load_template($playout){
 		
-		$pl = $this->db->get_where("fdm_va_page_layout",array("status"=>"Active","deleted"=>0,"layout_name"=>$playout))->row();
+		$pl = $this->db->get_where("tbl_page_layout",array("status"=>"Active","deleted"=>0,"layout_name"=>$playout))->row();
 		
 		if($pl){
 		

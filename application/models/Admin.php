@@ -13,6 +13,8 @@ class Admin extends CI_Model{
 
 		
 	}
+	
+	
 
 		public function insertoption($option_name,$option_value){
 		$on=$this->db->get_where("fdm_va_options",array('option_name'=>$option_name));
@@ -159,8 +161,12 @@ class Admin extends CI_Model{
 	
 	
 	public function generateCaptcha(){
+		
+		
+		$this->load->helper("captcha");
 		// Captcha Conf
-		$this->load->helper('captcha');
+
+	
 		$config = array(
             'img_path'      => 'uploads/captcha/',
             'img_url'       => base_url().'uploads/captcha/',
@@ -170,13 +176,22 @@ class Admin extends CI_Model{
 //			'font_size' => 50,
             'font_path'     => FCPATH.'uploads/captcha/fonts/verdana.ttf',
 		);
+	
         $captcha = create_captcha($config);
+        
         // Unset previous captcha and set new captcha word
         $this->session->unset_userdata('captchaCode');
         $this->session->set_userdata('captchaCode', $captcha['word']);
+        
         // Pass captcha image to view
         $captchaImg = $captcha['image'];
+	
 		return($captchaImg);
+		
+// Captcha conf ends	
+		
+		
+		
 	}
 
 

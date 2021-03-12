@@ -72,15 +72,15 @@ class About extends MY_Controller {
 		}
         if($d){
 			if($image_id){
-				$this->alert->pnotify("smsg",'Updated Successfully');
+				$this->session->set_flashdata("smsg",'Updated Successfully');
 			}else{
-				$this->alert->pnotify("smsg",'Added Successfully');	
+				$this->session->set_flashdata("smsg",'Added Successfully');	
 			}
 			redirect("admin/about");
 			
 		}else{
 			
-			$this->alert->pnotify("emsg",'Error Occured');	
+			$this->session->set_flashdata("emsg",'Error Occured');	
 			redirect("admin/about");
 			
 		}
@@ -121,6 +121,7 @@ class About extends MY_Controller {
 					$picture = $this->input->post("old_slider");
 				
 		}
+        //print_r($picture);die;
         $data = array(
             "image" => $picture,
 			"name"=>$name,
@@ -129,18 +130,23 @@ class About extends MY_Controller {
             "long_desc" => $long_desc,
             "linkdin_acc" => $linkdin_acc,
             "updated_date"=> $date,
+			
         );
+		//print_r($data);die;
         $this->db->where('id', $id);
         $s = 	$this->db->update('tbl_team', $data);
         if($s){
-            $this->alert->pnotify("smsg"," Successfully Updated","smsg");
+            $this->session->set_flashdata("smsg"," Successfully Updated","smsg");
             redirect("admin/about");
         }else{
-            $this->alert->pnotify("emsg","Error Occured While Updating ","emsg");
+            $this->session->set_flashdata("emsg","Error Occured While Updating ","emsg");
             redirect("admin/about");
         }
+
+
     }
     public function status(){
+		
 		$id=$this->input->post_get("id",true);
 		$status = $this->input->post("status",true);
 		$data=array('status'=>$status);
@@ -149,32 +155,41 @@ class About extends MY_Controller {
 		$d=$this->db->update("tbl_team");
 		if($d){
 			if($status=="Active"){
-				$this->alert->pnotify("smsg",'Successfully  Enabled');
+				$this->session->set_flashdata("smsg",'Successfully  Enabled');
 				//echo $this->alert->pnotify("Success","Successfully Navbar Sub Menu Enabled","success");
 			}else{
-				$this->alert->pnotify("smsg",'Successfully  Disabled');
+				$this->session->set_flashdata("smsg",'Successfully  Disabled');
 				//echo $this->alert->pnotify("Success","Successfully Navbar Sub Menu Disabled","success");	
 			}
+
 		}else{
 			if($status=="Active"){
-				$this->alert->pnotify("emsg",'Error Occured While Enabling');
+
+				$this->session->set_flashdata("emsg",'Error Occured While Enabling');
 				//echo $this->alert->pnotify("Error","Error Occured While Enabling Navbar Sub Menu","error");
 			}else{
-				$this->alert->pnotify("emsg",'Error Occured While Disabling');
+				$this->session->set_flashdata("emsg",'Error Occured While Disabling');
 				//echo $this->alert->pnotify("Error","Error Occured While Disabling Navbar Sub Menu","error");
 			}	
 		}
 	}
     public function del_team($id){
+		
 		$d = $this->db->delete("tbl_team",["id"=>$id]);
+		
 		if($d){
+			
 			unlink($this->input->post("slider"));
-			$this->alert->pnotify("smsg",'Deleted Successfully');	
+			$this->session->set_flashdata("smsg",'Deleted Successfully');	
             redirect("admin/podcast");
+			
 		}else{
-			$this->alert->pnotify("emsg",'Error Occured');	
+			
+			$this->session->set_flashdata("emsg",'Error Occured');	
 			redirect("admin/podcast");
+			
 		}
+		
 	}
 
 
@@ -185,6 +200,7 @@ class About extends MY_Controller {
 		$this->load->view("admin/abouts/story",$data);
 	}
 	public function stroty_add(){
+     
         $story_image_id = $this->input->post("image_id");
         $title = $this->input->post("text-file");
 		$year = $this->input->post("year");
@@ -193,52 +209,74 @@ class About extends MY_Controller {
 			$config['upload_path'] = 'uploads/story/';
 			$config['allowed_types'] = '*';
 			$config['file_name'] = $_FILES['story_image']['name'];				 
+
 			$this->load->library('upload',$config);
 			$this->upload->initialize($config);
+
 			if($this->upload->do_upload('story_image')){
 				$uploadData = $this->upload->data();
 				$picture = 'uploads/story/'.$uploadData['file_name'];
 			}
 		}
+		
         $data = array(
             "image" => $picture,
 			"text"=>$title,
 			"year"=> $year,
             "created_date"=> $date,
+			
         );
+	
 			$d = $this->db->insert("tbl_stories",$data);
+	
         if($d){
-				$this->alert->pnotify("smsg",'Added Successfully');	
+				$this->session->set_flashdata("smsg",'Added Successfully');	
+	
 			redirect("admin/about/story");
+			
 		}else{
-			$this->alert->pnotify("emsg",'Error Occured');	
+			
+			$this->session->set_flashdata("emsg",'Error Occured');	
 			redirect("admin/about/story");
+			
 		}
     }
 	public function stroty_edit($id){
+				
         $data["story_edit"] = $this->db->get_where("tbl_stories",array("id"=>$id))->row();
+       
         $this->load->view("admin/abouts/edit_story",$data);
     }
 
 	public function story_update(){
+		
 		$id = $this->input->post("id");
+	
         $title = $this->input->post("text-file");
 		$year = $this->input->post("year");
         $date = date("Y-m-d H:i:s");
+		
 		if($_FILES['story_image']['name'] != ""){
 			$config['upload_path'] = 'uploads/team/';
 			$config['allowed_types'] = '*';
 			$config['file_name'] = $_FILES['story_image']['name'];				 
+           
 			$this->load->library('upload',$config);
 			$this->upload->initialize($config);
+            
 			if($this->upload->do_upload('story_image')){
 				$uploadData = $this->upload->data();
 				$picture = 'uploads/team/'.$uploadData['file_name'];
-				unlink($this->input->post("old_story_image"));
+
+					unlink($this->input->post("old_story_image"));
+				
 			}
+			
 		}else{
+
 		      $picture = $this->input->post("old_story_image");
 		}
+		//print_r($picture);die;
 		$data = array(
             "image" => $picture,
 			"text"=>$title,
@@ -246,18 +284,20 @@ class About extends MY_Controller {
             "updated_date"=> $date,
 			
         );
+		//print_r($data);die;
 		$this->db->where('id', $id);
         $s = 	$this->db->update('tbl_stories', $data);
 	
         if($s){
-            $this->alert->pnotify("smsg"," Successfully Updated","smsg");
+            $this->session->set_flashdata("smsg"," Successfully Updated","smsg");
 			redirect("admin/about/story");
         }else{
-            $this->alert->pnotify("emsg","Error Occured While Updating ","emsg");
+            $this->session->set_flashdata("emsg","Error Occured While Updating ","emsg");
             redirect("admin/about/story");
         }
 	}
 	public function story_status(){
+		
 		$id=$this->input->post_get("id",true);
 		$status = $this->input->post("status",true);
 		$data=array('status'=>$status);
@@ -266,27 +306,32 @@ class About extends MY_Controller {
 		$d=$this->db->update("tbl_stories");
 		if($d){
 			if($status=="Active"){
-				$this->alert->pnotify("smsg",'Successfully  Enabled');
+				$this->session->set_flashdata("smsg",'Successfully  Enabled');
 			}else{
-				$this->alert->pnotify("smsg",'Successfully  Disabled');
+				$this->session->set_flashdata("smsg",'Successfully  Disabled');
 			}
 		}else{
 			if($status=="Active"){
-				$this->alert->pnotify("emsg",'Error Occured While Enabling');
+				$this->session->set_flashdata("emsg",'Error Occured While Enabling');
 			}else{
-				$this->alert->pnotify("emsg",'Error Occured While Disabling');
+				$this->session->set_flashdata("emsg",'Error Occured While Disabling');
 				
 			}	
 		}
 	}
 	public function del_story($id){
+		
 		$d = $this->db->delete("tbl_stories",["id"=>$id]);
+		
 		if($d){
+			
 			unlink($this->input->post("story_image"));
-			$this->alert->pnotify("smsg",'Deleted Successfully');	
+			$this->session->set_flashdata("smsg",'Deleted Successfully');	
 			redirect("admin/about/story");
+			
 		}else{
-			$this->alert->pnotify("emsg",'Error Occured');	
+			
+			$this->session->set_flashdata("emsg",'Error Occured');	
 			redirect("admin/about/story");
 			
 		}

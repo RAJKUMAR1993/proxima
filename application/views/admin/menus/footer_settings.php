@@ -151,7 +151,12 @@
                
       
 <?php admin_footer(); ?> 
-
+<script>
+				  
+$(".select2").select2();	
+	
+	
+</script>
 
 <script>
 

@@ -1,5 +1,3 @@
-<? $d = &get_instance(); ?>
-
 <div class="container">
   <div class="foottop">
   <div class="row">
@@ -20,8 +18,8 @@
    
       <div class="col-md-4 bord  justify-content-centers">
       <? $contact = json_decode($this->db->get_where("tbl_options",["option_name"=>"contact"])->row()->option_value); ?>
-        <h3>Need a hand?</h3>
-        <p><?php echo $contact->details; ?></p>
+        <h3>Like Our Solutions?</h3>
+        <!-- <p><?php //echo $contact->details; ?></p> -->
         <div class="media text-center">
           <div class="tc-fc"> <img class="media-object" src="http://www.dotcom-team.com/wp-content/themes/Unified_Dotcom/images/phone_icon.png" alt=""> </div>
           <div class="tc-fc"> <?php echo $contact->mobile_number ?> </div>
@@ -40,6 +38,7 @@
         <p> </p>
         <div class="textwidget">
         <? $copyright = $this->db->get_where("tbl_options",["option_name"=>"copyright"])->row()->option_value; ?>
+
           <p><?php echo $copyright; ?></p>
         </div>
         <p></p>
@@ -47,7 +46,7 @@
       <div class="col-md-4 col-sm-6 col-xs-12 navbar-right">
         <div class="textwidget">
           <ul class="navbar-right">
-            <li><a href="#">Home</a></li>
+            <li><a href="">Home</a></li>
             <li>|</li>
             <li><a href="#">Privacy Statement</a></li>
             <li>|</li>
@@ -83,6 +82,27 @@
 
 <script type='text/javascript' src="<? echo base_url('assets/front/js/blocks.js') ?>"></script>
 <script>
+	
+	var active = '';
+	var next = null;
+	$('#carousel-example-generic').on('slide.bs.carousel', function () {
+
+		$('.carousel-indicators li').each(function () {
+			if ($(this).hasClass('active')) {
+				active = $(this).data('slide-to');
+				console.log(active);
+				next = $(this).next('li').data('slide-to');
+			}
+		});
+		$('body').removeClass('slide' + active);
+		if (typeof next === 'undefined') {
+			$('body').addClass('slide1');
+		} else {
+			$('body').addClass('slide' + next);
+		}
+
+	});
+	
     $(document).ready(function(){
         $.ajax({
             url:"<?php echo base_url();?>sections/",
@@ -90,8 +110,10 @@
             dataType: 'JSON',
             success:function (data) {
               $('#solutions').html(data.solution);
+              // console.log(data);
             },
             error:function(data){
+              // console.log(data); 
            }
         });   
     });
@@ -104,10 +126,11 @@
             dataType: 'JSON',
             success:function (data) {
               $('#story').html(data.story);
+              console.log(data);
            
             },
             error:function(data){
-            
+             console.log(data); 
            }
         });   
     });
@@ -122,8 +145,10 @@
             dataType: 'JSON',
             success:function (data) {
               $('#team').html(data.team);
+              // console.log(data);
             },
             error:function(data){
+              // console.log(data); 
            }
         });   
    });
@@ -133,11 +158,14 @@
         $.ajax({
             url:"<?php echo base_url();?>sections/blogs/",
             type: 'GET',
+			data:{ category:'<?php echo $this->input->get("category") ?>'},
             dataType: 'JSON',
             success:function (data) {
               $('#blog_pages').html(data.blogs);
+               //console.log(data);
             },
             error:function(data){
+               //console.log(data); 
            }
         });   
    });
@@ -151,8 +179,10 @@
             dataType: 'JSON',
             success:function (data) {
               $('#categories').html(data.cartgory);
+              // console.log(data);
             },
             error:function(data){
+               //console.log(data); 
            }
         });   
    });
@@ -169,25 +199,44 @@
             console.log(data);
           },
           error:function(data){
-             
+              //console.log(data); 
           }
       });  
 </script>
 
 <script>
     $(document).ready(function(){
+      //alert('categories');
         $.ajax({
             url:"<?php echo base_url();?>sections/newpost/",
             type: 'GET',
             dataType: 'JSON',
             success:function (data) {
               $('#post').html(data.newpost);
+               //console.log(data);
             },
             error:function(data){
+              // console.log(data); 
            }
         });   
    });
 </script>
+<script type="text/javascript">
+function genericSocialShare(url){
+  window.location.href = url;
+    return true;
+}
+
+
+
+</script>
+<script type="text/javascript" async >
+  function shareinsocialmedia(url){
+    window.open(url,'sharein','toolbar=0,status=0,width=648,height=395');
+    return true;
+  }
+</script>
+
 <script>
     $(document).ready(function(){
         $.ajax({
@@ -238,4 +287,57 @@
  $('.captcha-refresh').click(function() {
     location.reload();
 });
+</script>
+<script>
+    $(document).ready(function(){
+      //alert('categories');
+        $.ajax({
+            url:"<?php echo base_url();?>sections/homebanner/",
+            type: 'GET',
+            dataType: 'JSON',
+            success:function (data) {
+              $('#banner').html(data.homebanner);
+               //console.log(data);
+            },
+            error:function(data){
+              // console.log(data); 
+           }
+        });   
+   });
+</script>
+
+<script>
+    $(document).ready(function(){
+      //alert('categories');
+        $.ajax({
+            url:"<?php echo base_url();?>sections/feature_banner/",
+            type: 'GET',
+            dataType: 'JSON',
+            success:function (data) {
+              $('#feature').html(data.feature_banner);
+               //console.log(data);
+            },
+            error:function(data){
+              // console.log(data); 
+           }
+        });   
+   });
+</script>
+
+<script>
+    $(document).ready(function(){
+     
+        $.ajax({
+            url:"<?php echo base_url();?>sections/host/",
+            type: 'GET',
+            dataType: 'JSON',
+            success:function (data) {
+              $('#host').html(data.host);
+               //console.log(data);
+            },
+            error:function(data){
+              //console.log(data); 
+           }
+        });   
+   });
 </script>

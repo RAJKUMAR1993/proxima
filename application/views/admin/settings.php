@@ -15,8 +15,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                      <div class="card">
-                        <div class="card-header card-header-primary">
+					<div class="card">
+          <div class="card-header card-header-primary">
                                 <h4 class="card-title">Settings</h4>
                             </div>
                             <div class="card-body">
@@ -40,10 +40,17 @@
                                             <span class="d-none d-lg-block">Social Links</span>
                                         </a>
                                     </li>
+
                                     <li class="nav-item">
                                         <a href="#settings-b3" data-toggle="tab" aria-expanded="false" class="nav-link">
                                             <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
-                                            <span class="d-none d-lg-block">Copy Rights</span>
+                                            <span class="d-none d-lg-block">Copy Right</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#settings-b4" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                            <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                            <span class="d-none d-lg-block">Contact Email</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -55,24 +62,24 @@
 												<div class="row">
 													<div class="col-md-3">
 														<div class="form-group ">
-															<input type="text" class="form-control" name="email"  value="<?php echo $contact->email;?>"   id="input2" required>
+															<input type="text" class="form-control" name="email"  value="<?php echo $contact->email;?>"   id="input2" >
 															<span class="bar"></span>
 															<label for="input2">Email</label>
 														</div>
 													</div>
 													<div class="col-md-3">
 														<div class="form-group ">
-															<input type="text" class="form-control" name="mobile" value="<?php echo $contact->mobile_number; ?>" id="input2" required>
+															<input type="text" class="form-control" name="mobile" value="<?php echo $contact->mobile_number; ?>" id="input2" >
 															<span class="bar"></span>
 															<label for="input2">Mobile Number</label>
 														</div>
 													</div>
-													<div class="col-md-4">
+													<!-- <div class="col-md-4">
 														<div class="form-group ">
-															<textarea name="details" class="form-control" rows="4" required><?php echo $contact->details;?></textarea>
+															<textarea name="details" class="form-control" rows="4" required><?php //echo $contact->details;?></textarea>
 															<label for="input6">Details</label>
 														</div>
-													</div>
+													</div> -->
 													<div class="col-md-2">
 														<button type="submit" class="btn btn-success" id="msubmit"> <i class="fa fa-check"></i> Update</button>
 													</div>
@@ -84,10 +91,10 @@
 												<div class="row">
 													<div class="col-md-3">
 														<div class="form-group ">
-															<input type="file" class="form-control" name="image"   id="input2">
+															<input type="file" class="form-control" name="image"   id="input2" >
 														</div>
 													</div>
-														<input type="hidden" name="old_image" class="old_image" value="<?php echo $img->option_value ?>">
+														<input type="hidden" name="old_image" class="old_image">
 															<input type="hidden" name="image_id" class="image_id">
 													<div class="col-md-2">
 														<button type="submit" class="btn btn-success" id="msubmit"> <i class="fa fa-check"></i> Update</button>
@@ -102,65 +109,94 @@
 										<form id="updatsocial_links" class="floating-labels mt-4" >
 												<input type="hidden" id="url1" name="url1" value="<?php echo base_url("admin/settings/updatsocial_links"); ?>">
 											<div class="row">
-												<div class="col-md-3">
+												<!-- <div class="col-md-3">
 												<div class="form-group ">
-														<input type="text" class="form-control" name="facebook"  value="<?php echo $social->facebook;?>"   id="input2" required>
+                       <?php   //if (!empty($social->facebook)) { ?>
+													 <input type="text" class="form-control" name="facebook"  value="<?php //echo $social->facebook;?>"   id="input2" required>
 														<span class="bar"></span>
 														<label for="input2">Facebook</label>
+                        <?php //} ?>
 												</div>
-												</div>
-												<div class="col-md-3">
-													<div class="form-group ">
-														<input type="text" class="form-control" name="instagram" value="<?php echo $social->instagram;?>" id="input2" required>
-														<span class="bar"></span>
-														<label for="input2">Instagram</label>
-													</div>
-												</div>
-												<div class="col-md-3">
+												</div> -->
+                        <div class="col-md-3">
 													<div class="form-group ">
 														<input type="text" name="linkedin" class="form-control" rows="4"  value="<?php echo $social->linkedin;?>">
 														<label for="input6">linkedIn</label>
 													</div>
 												</div>
-												<div class="col-md-3">
+                        <div class="col-md-3">
 													<div class="form-group ">
-														<input type="text" class="form-control" name="twitter" value="<?php echo $social->twitter;?>" id="input2" required>
+														<input type="text" class="form-control" name="twitter" value="<?php echo $social->twitter;?>" id="input2" >
 														<span class="bar"></span>
 														<label for="input2">Twitter</label>
 													</div>
 												</div>
+												<div class="col-md-3">
+													<div class="form-group ">
+														<input type="text" class="form-control" name="instagram" value="<?php echo $social->instagram;?>" id="input2" >
+														<span class="bar"></span>
+														<label for="input2">Instagram</label>
+													</div>
+												</div>
+											
+											
 												<div class="col-md-2">
 													<button type="submit" class="btn btn-success" id="msubmit"> <i class="fa fa-check"></i> Update</button>
 												</div>
 											</div>
                     </form>
-                  </div>
-
-
-                  <div class="tab-pane" id="settings-b3">
-										<form id="updatecopy_rights" class="floating-labels mt-4" >
-												<input type="hidden" id="url2" name="url2" value="<?php echo base_url("admin/settings/updatecopy_rights"); ?>">
+                </div>
+                <div class="tab-pane" id="settings-b3">
+										<form id="updatcopy_rights" class="floating-labels mt-4" >
+												<input type="hidden" id="url3" name="url3" value="<?php echo base_url("admin/settings/updatecopy_rights"); ?>">
 											<div class="row">
 												<div class="col-md-3">
-												<div class="form-group ">
-														<input type="text" class="form-control" name="copy_rights"  value="<?php echo $copy_rights->option_value;?>"   id="input2" required>
+													<div class="form-group ">
+														<input type="text" class="form-control" name="copy_rights" value="<?php echo $copy_rights->option_value;?>" id="input2" >
 														<span class="bar"></span>
 														<label for="input2">Copy Rights</label>
+													</div>
 												</div>
-												</div>
+											
+											
 												<div class="col-md-2">
 													<button type="submit" class="btn btn-success" id="msubmit"> <i class="fa fa-check"></i> Update</button>
 												</div>
 											</div>
                     </form>
-                  </div>
-                 </div>
-                </div> <!-- end card-body-->
-              </div> <!-- end card-->
-            </div> 
-          </div>
-        </div>
-      </div>
+                </div>
+
+                <div class="tab-pane" id="settings-b4">
+										<form id="contact_email" class="floating-labels mt-4" >
+												<input type="hidden" id="url4" name="url4" value="<?php echo base_url("admin/settings/updatecontact_email"); ?>">
+											<div class="row">
+												<div class="col-md-3">
+													<div class="form-group ">
+														<input type="text" class="form-control" name="contact_email" value="<?php echo $contact_email->option_value;?>" id="input2" >
+														<span class="bar"></span>
+														<label for="input2">Contact Email</label>
+													</div>
+												</div>
+											
+											
+												<div class="col-md-2">
+													<button type="submit" class="btn btn-success" id="msubmit"> <i class="fa fa-check"></i> Update</button>
+												</div>
+											</div>
+                    </form>
+                </div>
+
+
+
+
+            </div>
+
+        </div> <!-- end card-body-->
+    </div> <!-- end card-->
+</div> 
+</div>
+</div>
+</div>
             
                  <!----tables---->
                  
@@ -252,11 +288,11 @@
 <script>
   $(document).ready(function() {
 	 
-  $("#updatecopy_rights").on('submit', function(e){
+  $("#updatcopy_rights").on('submit', function(e){
 //	alert(url);
      e.preventDefault();
      var formData = new FormData(this);
-     var url = $('#url2').val();
+     var url = $('#url3').val();
      $.ajax({
       url:url,
       data:formData,
@@ -292,4 +328,45 @@
    });
 </script>
 
+<script>
+  $(document).ready(function() {
+	 
+  $("#contact_email").on('submit', function(e){
+//	alert(url);
+     e.preventDefault();
+     var formData = new FormData(this);
+     var url = $('#url4').val();
+     $.ajax({
+      url:url,
+      data:formData,
+      type:"post",
+      dataType:"json",
+      cache:false,
+	  contentType: false,
+	  processData: false,
+      beforeSend: function(){
+        $("#loader").show();
+      },
+      success: function(str){
+        //   alert(str);
+        console.log(str);
+        $("#loader").hide();
+        if(str.Status == 'Active'){
+          $("#smsg").show();
+          $("#smsg").html(str.Message);
+          setTimeout(function(){ location.reload(); }, 1000);  
+        }else{
+          $("#emsg").show();
+          $("#emsg").html(str.Message);
+        }
+      },
+      error: function(str){
+          //alert(str);
+        console.log(str);
+        
+      },
+      });
+  });
 
+   });
+</script>

@@ -13,6 +13,8 @@ class Settings extends MY_Controller {
 		$data['contact'] = json_decode($this->db->get_where("tbl_options",["option_name"=>"contact"])->row()->option_value);
 		$data['img'] = $this->db->get_where("tbl_options",["option_name"=>"image"])->row();
 		$data['copy_rights'] = $this->db->get_where("tbl_options",["option_name"=>"copyright"])->row();
+
+		$data['contact_email'] = $this->db->get_where("tbl_options",["option_name"=>"contact_email"])->row();
 		
 		$this->load->view('admin/settings',$data);	
 		
@@ -31,6 +33,7 @@ class Settings extends MY_Controller {
 		
 	}
 	public function updatsocial_links(){
+		//echo "fvnfd";die;
 	$data = [
 		"facebook"=>$this->input->post("facebook"),
 		"instagram"=>$this->input->post("instagram"),
@@ -75,27 +78,36 @@ class Settings extends MY_Controller {
 		}
 		if($d){
 			if($image_id){
-				$this->alert->pnotify("vmsg",'<div class="alert alert-success">Updated Successfully</div>');
+				$this->session->set_flashdata("vmsg",'<div class="alert alert-success">Updated Successfully</div>');
 			}
 			redirect("admin/settings");
 			
 		}else{
 			
-			$this->alert->pnotify("vmsg",'<div class="alert alert-danger">Error Occured</div>');	
+			$this->session->set_flashdata("vmsg",'<div class="alert alert-danger">Error Occured</div>');	
 			redirect("admin/settings");
 			
 		}
 	}
 	public function updatecopy_rights(){
-		$copy_rights = $this->input->post("copy_rights");
-		$data = array(
-			"option_value" => $copy_rights,
-			"option_name" => "copyright"
-		);
-        $this->db->where("id",6)->update("tbl_options",$data);
-		//$this->db->where("id",6)->update("tbl_options",["option_value"=>$this->input->post("copy_rights"),"option_name" => "copyright",]);
-		$this->alert->pnotify("vmsg",'<div class="alert alert-success">Updated Successfully</div>');
+	
+		// $copy_rights = $this->input->post("copy_rights");
+		// $data = array(
+		// 	"option_value" => $copy_rights,
+		// 	"option_name" => "copyright",
+		// );
+        $this->db->where("id",6)->update("tbl_options",["option_value"=> $this->input->post("copy_rights"),"option_name" => "copyright",]);
+	//	echo $this->db->last_query();die;
+		$this->session->set_flashdata("vmsg",'<div class="alert alert-success">Updated Successfully</div>');
 		redirect("admin/settings");
 	}
-  
+	
+	public function updatecontact_email(){
+	
+        $this->db->where("id",12)->update("tbl_options",["option_value"=> $this->input->post("contact_email"),"option_name" => "contact_email",]);
+  //	echo $this->db->last_query();die;
+		$this->session->set_flashdata("vmsg",'<div class="alert alert-success">Updated Successfully</div>');
+		redirect("admin/settings");
+	}
+	
 }

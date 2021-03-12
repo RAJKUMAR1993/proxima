@@ -21,6 +21,7 @@
     <link href="<? echo base_url() ?>assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/css/card.css"/>
   	<link rel="stylesheet" href="<?php echo base_url();?>assets/sweetalert/sweetalert2.min.css"/>
+      <link rel="stylesheet" href="<?php echo base_url();?>assets/summernote/dist/summernote.css"/>
 	<link href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

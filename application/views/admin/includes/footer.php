@@ -43,8 +43,6 @@
     <script src="<? echo base_url() ?>assets/dist/js/pages/dashboards/dashboard1.js"></script>
     <script src="<? echo base_url() ?>assets/select2/dist/js/select2.full.min.js"></script>
     <script src="<? echo base_url() ?>assets/select2/dist/js/select2.min.js"></script>
-    <script src="<? echo base_url() ?>assets/select2/dist/js/select2.init.js"></script>
-    <script src="<? echo base_url() ?>assets/select2/dist/js/select2.init.js"></script>
     <script src="<? echo base_url() ?>assets/libs/datatables/media/js/jquery.dataTables.min.js"></script>
     <!-- start - This is for export functionality only -->
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
@@ -55,6 +53,7 @@
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
     <script src="<? echo base_url() ?>assets/dist/js/pages/datatable/datatable-advanced.init.js"></script>
+    <script src="<? echo base_url() ?>assets/summernote/dist/summernote.js"></script>
     <script src="<? echo base_url() ?>assets/js/jasny-bootstrap.js"></script>
     <script src="<?php echo base_url();?>assets/sweetalert/sweetalert.min.js"></script>
     <script src="<?php echo base_url();?>assets/sweetalert/sweetalert2.min.js"></script>
@@ -84,14 +83,12 @@
 </body>
 
 </html>
-
-
 <script type="text/javascript">
+
 <?php    
 if($d->session->flashdata("msg")){
-   
 ?>
-
+    
 $(function(){
 
 new PNotify({
@@ -109,4 +106,22 @@ new PNotify({
 <?php
     }
     ?>
+</script>
+<script type="text/javascript">  
+    $('.summernote').summernote({
+    toolbar: [
+    ['style', ['style']],
+    ['font', ['bold', 'italic', 'underline', 'clear']],
+    ['fontname', ['fontname']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['height', ['height']],
+    ['table', ['table']],
+   // ['insert', ['link', 'picture', 'hr']],
+    ['view', ['fullscreen', 'codeview']],
+    ['help', ['help']]
+  ],
+  height: 350,
+});
+
 </script>

@@ -35,22 +35,19 @@
                                                 </div>
                                             </div>
                                             
-<!--
                                             <div class="col-md-3">
-                                                <div class="form-group has-danger">
-                                                    <label class="control-label">Page Layout</label>
+                                                <div class="form-group">
+                                                    <label class="control-label">Template</label>
                                                     <select class="form-control" name="playout" required> 
                                                     	
-                                                    	<option value="">Select Page Layout</option>
-                                                    	<option value="1-col">1 Column</option>
-                                                    	<option value="2-col">2 Column</option>
-                                                    	<option value="3-col">3 Column</option>
-                                                    	<option value="icon-layout">Icon Layout</option>
+                                                    	<option value="">Select Template</option>
+                                                    	<option value="solution">Solution</option>
+                                                    	<option value="product">Product</option>
+                                                    	<option value="sample">Sample</option>
                                                     	
                                                     </select>
                                                 </div>
                                             </div>
--->
                                             
                                             <div class="col-md-3">
                                                 <div class="form-group has-danger" style="margin-top: 20px">

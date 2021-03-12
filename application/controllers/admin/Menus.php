@@ -21,21 +21,21 @@ class Menus extends MY_Controller {
 		$menu_type = $this->input->post("menu_type");
 		
 		if($link==""){
-			$this->alert->pnotify('error', "Please Select Menu Link","error");
+			$this->session->set_flashdata('error', "Please Select Menu Link","error");
 			redirect("admin/menus");
 		}
 		if($target==""){
-			$this->alert->pnotify('error', "Please Select Link Target","error");
+			$this->session->set_flashdata('error', "Please Select Link Target","error");
 			redirect("admin/menus");
 		}
 		$chk = $this->db->get_where("tbl_menu",array("name"=>$name,"deleted"=>0))->num_rows();
 		if($chk>=1){
-			$this->alert->pnotify('error', " Menu Already Exists","error");
+			$this->session->set_flashdata('error', " Menu Already Exists","error");
 				redirect("admin/menus");
 		}
 		$lchk = $this->db->get_where("tbl_menu",array("link"=>$link,"deleted"=>0))->num_rows();
 		if($lchk>=1){
-			$this->alert->pnotify('error',"Link Already Exists","error");
+			$this->session->set_flashdata('error',"Link Already Exists","error");
 				redirect("admin/menus");
 		}
 
@@ -55,10 +55,10 @@ class Menus extends MY_Controller {
 			$n = $this->db->insert("tbl_menu",$data);
 			
 			if($n){
-				$this->alert->pnotify("success"," Successfully Added","success");
+				$this->session->set_flashdata("success"," Successfully Added","success");
 					redirect("admin/menus");
 			}else{
-				$this->alert->pnotify("error","Error Occured ","error");
+				$this->session->set_flashdata("error","Error Occured ","error");
 					redirect("admin/menus");
 			}
 	    }
@@ -74,15 +74,15 @@ class Menus extends MY_Controller {
 		$d=$this->db->update("tbl_menu");
 		if($d){
 			if($status=="Active"){
-				$this->alert->pnotify("Success","Successfully Enabled","success");
+				$this->session->set_flashdata("Success","Successfully Enabled","success");
 			}else{
-				$this->alert->pnotify("Success","Successfully  Disabled","success");
+				$this->session->set_flashdata("Success","Successfully  Disabled","success");
 			}
 		}else{
 			if($status=="Active"){
-				$this->alert->pnotify("Error","Error Occured While Enabling ","error");
+				$this->session->set_flashdata("Error","Error Occured While Enabling ","error");
 			}else{
-				$this->alert->pnotify("Error","Error Occured While Disabling ","error");
+				$this->session->set_flashdata("Error","Error Occured While Disabling ","error");
 				
 			}	
 		}
@@ -110,18 +110,19 @@ class Menus extends MY_Controller {
 			"menu_type" => implode(',', $menu_type),
 			"header" => $hstatus,
 			"footer" => $fstatus,
-			"updated_date" => $date
+			"updated_date" => $date,
+			"link"  => $link ,
 		);
 		//print_R($data);die;
 		$this->db->set($data);
 		$this->db->where("id",$id);
 		$n = $this->db->update("tbl_menu");		
 		if($n){
-			$this->alert->pnotify("success"," Successfully Updated","success");
+			$this->session->set_flashdata("success"," Successfully Updated","success");
 				//$this->alert->pnotify("success","Navbar Menu Successfully Updated","success");
 				redirect("admin/menus");
 		}else{
-			$this->alert->pnotify("error","Error Occured While Updating ","error");
+			$this->session->set_flashdata("error","Error Occured While Updating ","error");
 				//$this->alert->pnotify("error","Error Occured While Updating Navbar Menu","error");
 				redirect("admin/menus");
 		}
@@ -137,11 +138,11 @@ class Menus extends MY_Controller {
 				$this->db->set($data);
 				$this->db->where("menu_name",$id);
 				$d = $this->db->update("tbl_submenu");
-				$this->alert->pnotify("success","Navbar Menu Successfully Deleted","success");
+				$this->session->set_flashdata("success","Navbar Menu Successfully Deleted","success");
 				//$this->alert->pnotify("success","Navbar Menu Successfully Deleted","success");
 				redirect("admin/menus");
 		}else{
-			$this->alert->pnotify("error","Error Occured While Deleting Navbar Menu","error");
+			$this->session->set_flashdata("error","Error Occured While Deleting Navbar Menu","error");
 				//$this->alert->pnotify("error","Error Occured While Deleting Navbar Menu","error");
 				redirect("admin/menus");
 	}
@@ -187,11 +188,11 @@ class Menus extends MY_Controller {
 		
 		$n = $this->db->insert("tbl_submenu",$data);
 		if($n){
-			$this->alert->pnotify("success"," Successfully Added","success");
+			$this->session->set_flashdata("success"," Successfully Added","success");
 				//$this->alert->pnotify("success"," Successfully Added","success");
 				redirect("admin/menus/footer_submenu/".$mname);
 		}else{
-			$this->alert->pnotify("error","Error Occured While Adding ","error");
+			$this->session->set_flashdata("error","Error Occured While Adding ","error");
 				//$this->alert->pnotify("error","Error Occured While Adding ","error");
 				redirect("admin/menus/footer_submenu/".$mname);
 		}
@@ -228,11 +229,11 @@ class Menus extends MY_Controller {
 		$this->db->where("id",$id);
 		$n = $this->db->update("tbl_submenu");	
 		if($n){
-			$this->alert->pnotify("success","Successfully Updated","success");
+			$this->session->set_flashdata("success","Successfully Updated","success");
 				//$this->alert->pnotify("success","Navbar Sub Menu Successfully Updated","success");
 				redirect("admin/menus/footer_submenu/".$mname);
 		}else{
-			$this->alert->pnotify("error","Error Occured While Updating ","error");
+			$this->session->set_flashdata("error","Error Occured While Updating ","error");
 				//$this->alert->pnotify("error","Error Occured While Updating Navbar Sub Menu","error");
 				redirect("admin/menus/footer_submenu/".$mname);
 		}
@@ -244,11 +245,11 @@ class Menus extends MY_Controller {
 	   $this->db->where("id",$id);
 	   $d = $this->db->update("tbl_submenu");
 	   if($d){
-		   $this->alert->pnotify("success"," Successfully Deleted","success");
+		   $this->session->set_flashdata("success"," Successfully Deleted","success");
 			   //$this->alert->pnotify("success"," Successfully Deleted","success");
 			   redirect("menus/edit-sub-menu/".$id);
 	   }else{
-		   $this->alert->pnotify("error","Error Occured While Deleting ","error");
+		   $this->session->set_flashdata("error","Error Occured While Deleting ","error");
 			   //$this->alert->pnotify("error","Error Occured While Deleting ","error");
 			   redirect("menus/edit-sub-menu/".$id);
 	   }
@@ -266,17 +267,17 @@ class Menus extends MY_Controller {
 				//echo $this->alert->pnotify("Success","Successfully Navbar Sub Menu Enabled","success");
 			}else{
 				$this->alert->pnotify("Success","Successfully  Disabled","success");
-				//$this->alert->pnotify("Success","Successfully  Disabled","success");
+				//$this->session->set_flashdata("Success","Successfully  Disabled","success");
 				//echo $this->alert->pnotify("Success","Successfully Navbar Sub Menu Disabled","success");	
 			}
 
 		}else{
 			if($status=="Active"){
 
-				$this->alert->pnotify("Error","Error Occured While Enabling ","error");
+				$this->session->set_flashdata("Error","Error Occured While Enabling ","error");
 				//echo $this->alert->pnotify("Error","Error Occured While Enabling Navbar Sub Menu","error");
 			}else{
-				$this->alert->pnotify("Error","Error Occured While Disabling ","error");
+				$this->session->set_flashdata("Error","Error Occured While Disabling ","error");
 				//echo $this->alert->pnotify("Error","Error Occured While Disabling Navbar Sub Menu","error");
 			}	
 		} 

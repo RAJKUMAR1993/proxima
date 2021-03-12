@@ -70,11 +70,12 @@
                                 <label for="input3">Short Description</label>
                             </div>
                         </div>
-                        <div class="col-md-3">    
+                        <div class="col-md-12">    
                             <div class="form-group mb-5">
-                            <textarea id="" class="form-control p-0" value="" name="long_desc"  rows="4" cols="50"><? echo isset($bolg_edit->long_desc) ? $bolg_edit->long_desc : '' ?></textarea>
+                            <label for="input3">Long Description</label>
+                            <textarea id="" class="form-control p-0 summernote" value="" height="10" name="long_desc" id="description"  rows="4" cols="50"><? echo isset($bolg_edit->long_desc) ? $bolg_edit->long_desc : '' ?></textarea>
                                 <span class="bar"></span>
-                                <label for="input3">Long Description</label>
+                                
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -155,7 +156,9 @@
 
 <?php admin_footer(); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
 <script>
+
 
 $("input[type='checkbox']").bootstrapSwitch({size : 'mini'});
     

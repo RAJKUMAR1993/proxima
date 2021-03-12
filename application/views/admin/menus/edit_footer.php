@@ -55,6 +55,11 @@
                                     <div class="col-md-4">
                                     <div class="form-group mb-5">
                                     <label>Menu Type</label>
+                                    
+                                    <? 
+										$menu_types = explode(",",$n->menu_type);
+										?>
+                                    
                                     <select class="select2 form-control" name="menu_type[]"  multiple="multiple"  style="width: 100%;" required>
                                         <option value="Header" <?php if($n->menu_type == 'Header') { ?>  selected="selected"<?php } ?>>Header</option>
                                         <option value="Footer" <?php if($n->menu_type == 'Footer') { ?> selected="selected"<?php } ?>>Footer</option>
@@ -75,4 +80,12 @@
                  
       
 <?php admin_footer(); ?> 
+
+<script>
+				  
+$(".select2").select2();
+$(".select2").val(<? echo json_encode($menu_types) ?>).trigger("change")	
+	
+	
+</script>
 

@@ -25,7 +25,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group mb-5 focused">
-                                        <input type="file" class="form-control" name="image"   id="input2" required>
+                                        <input type="file" class="form-control" name="image" id="input2">
                                         <input type="hidden" name="old_image" class="old_image">
 								        <input type="hidden" name="image_id" class="image_id">
                                         </div>
@@ -64,13 +64,14 @@
                                             <option value="Text">Select Type</option>
                                             <option value="Text">Text</option>
                                             <option value="Image">Image</option>
+                                            <option value="Heading">Heading</option>
                                         </select>
                                     </div>
                                     </div>
                                     <div class="col-md-3">   
                                     <div class="form-group mb-5">
                                         <label>Short Description</label>
-                                            <input type="text" class="form-control p-0" name="short_desc" />
+                                        <textarea class="form-control p-0" name="short_desc"></textarea>
                                     </div>
                                     </div>
                                     <div class="col-md-4">

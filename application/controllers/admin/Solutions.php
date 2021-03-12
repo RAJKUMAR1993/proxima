@@ -10,6 +10,7 @@ class Solutions extends MY_Controller {
 
 	public function index(){
         $data["solutions"] = $this->db->get_where("tbl_solutions",array("deleted"=> 0))->result();
+        //print_r($data["publicationns"]);die;
 		$this->load->view('admin/solutions/solutions',$data);	
 		
 	}
@@ -27,6 +28,7 @@ class Solutions extends MY_Controller {
 		$type = $this->input->post("type");
 		$short_desc = $this->input->post("short_desc");
         $image_id = $this->input->post("image_id");
+		
 		if($_FILES['image']['name'] != ""){
 			$config['upload_path'] = 'uploads/solutions/';
 			$config['allowed_types'] = '*';
@@ -42,6 +44,7 @@ class Solutions extends MY_Controller {
 		}else{
 			$picture = "";
 		}
+     
 		$data = array(
             "image" => $picture,
 			"title"=>$text_area,
@@ -53,13 +56,14 @@ class Solutions extends MY_Controller {
             "created_date"=> $date,
 			
         );
+        // echo "<pre/>";print_r($data );die;
 		$p = $this->db->insert("tbl_solutions",$data);
 			
 			if($p){
-				$this->alert->pnotify("success"," Successfully Added","success");
+				$this->session->set_flashdata("success"," Successfully Added","success");
 					redirect("admin/solutions");
 			}else{
-				$this->alert->pnotify("error","Error Occured ","error");
+				$this->session->set_flashdata("error","Error Occured ","error");
 					redirect("admin/solutions");
 			}
 	}
@@ -69,6 +73,9 @@ class Solutions extends MY_Controller {
        
         $this->load->view("admin/solutions/edit_solutions",$data);
     }
+
+
+
     public function edit(){
         $id = $this->input->post("id");
 		$text_area = $this->input->post("text_area",true);
@@ -91,10 +98,13 @@ class Solutions extends MY_Controller {
 				$uploadData = $this->upload->data();
 				$picture = 'uploads/solutions/'.$uploadData['file_name'];
 					unlink($this->input->post("old_image"));
+						
 			}
 		}else{
+				
 					$picture = $this->input->post("old_image");
 		}
+    
 		$data = array(
 				"image" => $picture,
 				"title"=>$text_area,
@@ -105,14 +115,15 @@ class Solutions extends MY_Controller {
 				"short_desc" => $short_desc,
                 "updated_date"=> $date,
         );
+        //echo "<pre/>";print_r($data);die;
 		$this->db->where('id', $id);
 		$s = 	$this->db->update('tbl_solutions', $data);
 		if($s){
-			$this->alert->pnotify("success"," Successfully Updated","success");
+			$this->session->set_flashdata("success"," Successfully Updated","success");
 				//$this->alert->pnotify("success","Navbar Menu Successfully Updated","success");
 				redirect("admin/solutions");
 		}else{
-			$this->alert->pnotify("error","Error Occured While Updating ","error");
+			$this->session->set_flashdata("error","Error Occured While Updating ","error");
 				//$this->alert->pnotify("error","Error Occured While Updating Navbar Menu","error");
 				redirect("admin/solutions");
 		}
@@ -128,15 +139,15 @@ class Solutions extends MY_Controller {
 		$d=$this->db->update("tbl_solutions");
 		if($d){
 			if($status=="Active"){
-				$this->alert->pnotify("Success","Successfully Enabled","success");
+				$this->session->set_flashdata("Success","Successfully Enabled","success");
 			}else{
-				$this->alert->pnotify("Success","Successfully  Disabled","success");
+				$this->session->set_flashdata("Success","Successfully  Disabled","success");
 			}
 		}else{
 			if($status=="Anactive"){
-				$this->alert->pnotify("Error","Error Occured While Enabling ","error");
+				$this->session->set_flashdata("Error","Error Occured While Enabling ","error");
 			}else{
-				$this->alert->pnotify("Error","Error Occured While Disabling ","error");
+				$this->session->set_flashdata("Error","Error Occured While Disabling ","error");
 				
 			}	
 		}
@@ -153,11 +164,11 @@ class Solutions extends MY_Controller {
 				$this->db->set($data);
 				$this->db->where("id",$id);
 				$d = $this->db->update("tbl_solutions");
-				$this->alert->pnotify("success","Successfully Deleted","success");
+				$this->session->set_flashdata("success","Successfully Deleted","success");
 				//$this->alert->pnotify("success","Navbar Menu Successfully Deleted","success");
 				redirect("admin/solutions");
 		}else{
-			$this->alert->pnotify("error","Error Occured While Deleting","error");
+			$this->session->set_flashdata("error","Error Occured While Deleting","error");
 				//$this->alert->pnotify("error","Error Occured While Deleting Navbar Menu","error");
 				redirect("admin/solutions");
 	}

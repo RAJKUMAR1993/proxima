@@ -96,7 +96,8 @@ if($_FILES['profile_pic']['size']!='0'){
 }
 
 
-  public function changePassword(){
+public function changePassword(){
+
 	$opass = $this->input->post("opass",true);
 	$npass = $this->input->post("npass",true);
 	$cpass = $this->input->post("cpass",true);

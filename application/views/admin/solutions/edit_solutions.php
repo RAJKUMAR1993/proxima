@@ -70,17 +70,20 @@
                                         <option>Select Type</option>
                                         <option value="Text" <?php if($sul->type == 'Text') { ?>  selected="selected"<?php } ?>>Text</option>
                                         <option value="Image" <?php if($sul->type == 'Image') { ?> selected="selected"<?php } ?>>Image</option>
+                                        <option value="Heading" <?php if($sul->type == 'Heading') { ?> selected="selected"<?php } ?>>Heading</option>
                                     </select>
                                     </div>
                                     </div>
                                     <div class="col-md-3">   
                                     <div class="form-group mb-5">
                                         <label>Short Description</label>
-                                            <input type="text" value="<?php echo $sul->short_desc; ?>" class="form-control p-0" name="short_desc" />
+                                        <textarea class="form-control p-0" name="short_desc"><?php echo $sul->short_desc; ?></textarea>
                                     </div>
                                     </div>
                                     <div class="col-md-2">
-                                    <img class="thumbnail" style="height: 70px; width: 100px;" src="<?php echo base_url(); ?><?php echo $sul->image ?>" alt="" required>
+                                    <? if($sul->image){ ?>
+                                    	<img class="thumbnail" style="height: 70px; width: 100px;" src="<?php echo base_url(); ?><?php echo $sul->image ?>" alt="" required>
+                                    <? } ?>	
                                     </div>
                                     <div class="col-md-3">
                                     <button type="submit" class="btn btn-info">Submit</button>

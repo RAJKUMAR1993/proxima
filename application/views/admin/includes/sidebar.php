@@ -37,12 +37,12 @@ $uri = $d->uri->segment(2);
                         </li>
                         <li class="sidebar-item <? echo ($uri == "stroy") ? 'active' : ''; ?>"> 
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url(); ?>admin/about/story" aria-expanded="false"><i class="mdi mdi-all-inclusive"></i>
-                            	<span class="hide-menu"> Stroies</span>
+                            	<span class="hide-menu"> Stories</span>
                             </a>
                         </li>
                         <li class="sidebar-item <? echo ($uri == "blogs") ? 'active' : ''; ?>"> 
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url(); ?>admin/blogs" aria-expanded="false"><i class="icon-tag"></i>
-                            	<span class="hide-menu">Blogs</span>
+                            	<span class="hide-menu">News & Views</span>
                             </a>
                         </li>
                         <!-- <li class="sidebar-item <? //echo ($uri == "categories") ? 'active' : ''; ?>"> 
@@ -50,11 +50,11 @@ $uri = $d->uri->segment(2);
                             	<span class="hide-menu">Category</span>
                             </a>
                         </li> -->
-                        <li class="sidebar-item <? echo ($uri == "publication") ? 'active' : ''; ?>"> 
+                        <!--<li class="sidebar-item <? echo ($uri == "publication") ? 'active' : ''; ?>"> 
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url(); ?>admin/publication" aria-expanded="false"><i class="mdi mdi-directions"></i>
                             	<span class="hide-menu">Publications</span>
                             </a>
-                        </li>
+                        </li>-->
                         <li class="sidebar-item <? echo ($uri == "solutions") ? 'active' : ''; ?>"> 
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url(); ?>admin/solutions" aria-expanded="false"><i class=" mdi mdi-laptop-windows"></i>
                             	<span class="hide-menu">Solutions</span>
@@ -80,11 +80,11 @@ $uri = $d->uri->segment(2);
                             	<span class="hide-menu">Settings</span>
                             </a>
                         </li>
-                        <!-- <li class="sidebar-item <? //echo ($uri == "podcast") ? 'active' : ''; ?>"> 
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php //echo base_url(); ?>admin/podcast" aria-expanded="false"><i class="icon-vector"></i>
-                            	<span class="hide-menu">Podcast</span>
+                        <li class="sidebar-item <? echo ($uri == "podcast") ? 'active' : ''; ?>"> 
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url(); ?>admin/podcast" aria-expanded="false"><i class="icon-vector"></i>
+                            	<span class="hide-menu">Sliders</span>
                             </a>
-                        </li> -->
+                        </li>
                        
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<?php echo base_url("admin/login/logout");?>" aria-expanded="false"><i class="mdi mdi-directions"></i>

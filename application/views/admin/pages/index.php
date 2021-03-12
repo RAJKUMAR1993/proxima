@@ -8,7 +8,6 @@
   <title>Create Page</title> 
 <!--  <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url() ?>assets/images/favicon.png">-->
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <!--     <link href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" rel="stylesheet">-->
 
 <!--    <link rel="stylesheet" href="stylesheets/toastr.min.css">-->
@@ -146,7 +145,8 @@
  </div>       
 -->
 
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	 <input type="hidden" name="page_name" id="pname" value="<?php echo $this->input->get("pname") ?>">  
      <input type="hidden" name="page_route" id="route" value="<?php echo $this->input->get("route") ?>"> 
      <input type="hidden" name="page_layout" id="playout" value="<?php echo $this->input->get("playout") ?>"> 
@@ -177,7 +177,12 @@
 			  autosave: true,
 			  autoload: true,	
 			  type: 'remote',
+			
+			<? if($this->input->get("playout")){ ?>
+			  urlLoad: '<?php echo base_url() ?>admin/pages/load_template/<?php echo $this->input->get("playout") ?>',
+			<? }else{ ?>
 			  urlLoad: '<?php echo base_url() ?>admin/pages/load/<?php echo $page_id ?>',
+			<? } ?>
 			  contentTypeJson: true,
 		},
 		  
