@@ -21,6 +21,7 @@ class Podcast extends MY_Controller {
 		$short_desc = $this->input->post("short_desc");
 		$button_name = $this->input->post("button_name");
 		$link = $this->input->post("link");
+		$target = $this->input->post("target");
         $date = date("Y-m-d H:i:s");
 		if($_FILES['image']['name'] != ""){
 			$config['upload_path'] = 'uploads/podcast/';
@@ -43,6 +44,7 @@ class Podcast extends MY_Controller {
 			"page_name"=>$page_name,
 			"button_name"=>$button_name,
 			"link"=>$link,
+			"target"=>$target,
 			"short_desc" => $short_desc,
             "created_date"=> $date,
         );
@@ -78,6 +80,7 @@ class Podcast extends MY_Controller {
 		$short_desc = $this->input->post("short_desc");
 		$button_name = $this->input->post("button_name");
 		$link = $this->input->post("link");
+		$target = $this->input->post("target");
 		$date = date("Y-m-d H:i:s");
 		//image upload//
 
@@ -105,11 +108,12 @@ class Podcast extends MY_Controller {
 					"page_name"=>$page_name,
 					"button_name"=>$button_name,
 					"link"=>$link,
+					"target"=>$target,
 					"short_desc" => $short_desc,
 					"updated_date"=> $date,
 				);
 
-		//print_R($data);die;
+	
         $this->db->where('id', $id);
 		 $s = 	$this->db->update('tbl_podcast_slider', $data);
 		 if($s){

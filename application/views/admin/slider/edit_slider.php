@@ -84,6 +84,15 @@
                                                         <label for="input1">Link</label>
                                                     </div>
                                             </div>
+                                             <div class="col-md-3 featured-guests"  style='display:none;' >
+                                                    <div class="form-group mb-5 focused">
+                                                    <select class="form-control custom-select p-0" required name="target">
+                                                        <option value="_blank" <?php if($slider->target == '_blank') { ?>  selected="selected"<?php } ?>>Blank</option>
+                                                        <option value="_self" <?php if($slider->target == '_self') { ?> selected="selected"<?php } ?>>Self</option>
+                                                        </select>
+                                                            <label for="input6">Link Target</label>
+                                                    </div>
+                                            </div>
                                             <div class="col-md-12 " id= "short_desc" >
                                                     <div class="form-group mb-5 focused">
                                                     <textarea class="form-control p-0 summernote"  name="short_desc" id="descriptions"  rows="4" cols="50"><?php echo $slider->short_desc ?></textarea>
@@ -91,16 +100,6 @@
                                                         <label for="input1"></label>
                                                     </div>
                                             </div>
-                                         
-                                          
-                                            <!-- <div class="col-md-12 featured-guests"  style='display:none;' >
-                                                    <div class="form-group mb-5 focused">
-                                                    <textarea class="form-control p-0 summernote" name="short_desc" id="descriptions"  rows="4" cols="50"><?php //echo $slider->short_desc ?></textarea>
-                                                        <span class="bar"></span>
-                                                        <label for="input1"></label>
-                                                    </div>
-                                            </div> -->
-                                           
                                             <div class="col-md-3">
                                             <button type="submit" class="btn btn-info ">Submit</button>
                                             </div>
@@ -152,4 +151,26 @@ $('#types').on('change', function () {
     }
 
 });
+$('#types').on('change', function () {
+    if (this.value == 'featured-guests') {
+     
+        $(".featured-guests").show();
+    } else {
+       
+        $(".featured-guests").hide();
+    }
+
+});
+$('#types').on('change', function () {
+    if (this.value == 'host') {
+     
+        $("#host").show();
+    } else {
+       
+        $("#host").hide();
+    }
+
+});
+
+
 </script>

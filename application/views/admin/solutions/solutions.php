@@ -23,6 +23,17 @@
                                 <form class="floating-labels mt-4" action="<?php echo base_url() ?>admin/solutions/add" method="post" enctype="multipart/form-data">
 
                                 <div class="row">
+                                <div class="col-md-3">   
+                                    <div class="form-group mb-5">
+                                        <label>Type</label>
+                                        <select class="form-control p-0" name="type">
+                                            <option value="Text">Select Type</option>
+                                            <option value="Text">Text</option>
+                                            <option value="Image">Image</option>
+                                            <option value="Heading">Heading</option>
+                                        </select>
+                                    </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group mb-5 focused">
                                         <input type="file" class="form-control" name="image" id="input2">
@@ -39,12 +50,8 @@
                                     </div>
                                     <div class="col-md-3">     
                                         <div class="form-group mb-5">
-                                            <select class="form-control p-0" id="input6" name="target" required>
-                                                <option>Select Target</option>
-                                                <option value="_blank">Blank</option>
-                                                <option value="_self">Self</option>
-                                            </select><span class="bar"></span>
-                                            
+                                        <textarea class="form-control p-0" name="link"></textarea>                                            <span class="bar"></span>
+                                            <label for="input3">Link</label>
                                         </div>
                                     </div>
                                     <div class="col-md-3">   
@@ -57,17 +64,7 @@
                                         </select>
                                     </div>
                                     </div>
-                                    <div class="col-md-3">   
-                                    <div class="form-group mb-5">
-                                        <label>Type</label>
-                                        <select class="form-control p-0" name="type">
-                                            <option value="Text">Select Type</option>
-                                            <option value="Text">Text</option>
-                                            <option value="Image">Image</option>
-                                            <option value="Heading">Heading</option>
-                                        </select>
-                                    </div>
-                                    </div>
+                                
                                     <div class="col-md-3">   
                                     <div class="form-group mb-5">
                                         <label>Short Description</label>
@@ -94,8 +91,8 @@
                                                 <th>S.no</th>
                                                 <th>Image </th>
                                                 <th>Title</th>
-                                                <th>Target</th>
-                                                <th>Alignment</th>
+                                                <!-- <th>Target</th> -->
+                                                <th>Link</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -109,8 +106,8 @@
                                             <td><?php echo ++$i ?></td>
                                             <td> <? if($s->image){ ?><img class="thumbnail" style="height: 80px; width: 120px;" src="<?php echo base_url(); ?><?php echo $s->image ?>" alt=""><? } ?></td>
                                             <td><?php echo $s->title ?></td>
-                                            <td><?php echo $s->target ?></td>
-                                            <td><?php echo $s->alignment ?></td>
+                                            <!-- <td><?php //echo $s->target ?></td> -->
+                                            <td><?php echo $s->link ?></td>
                                              <td>
                                             <?php if($s->status=="Active"){ ?>
                                                 <div class="togglebutton bt-switch">
@@ -215,6 +212,17 @@ $('#file_export').on('switchChange.bootstrapSwitch','input[name="switch"]', func
 			status = "Inactive";
 		}
 		$.ajax({
+			type:"POST",
+			url:"<?php echo base_url();?>admin/solutions/status",
+			data:{id:nav_id,status:status},
+			success:function (data){
+				location. reload(true);
+			}
+
+		});  
+ });
+
+</script>
 			type:"POST",
 			url:"<?php echo base_url();?>admin/solutions/status",
 			data:{id:nav_id,status:status},

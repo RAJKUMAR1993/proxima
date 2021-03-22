@@ -29,6 +29,16 @@
                                 <input type="hidden" name="id" value="<?php echo $sul->id ?>">
                                 
                                 <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group mb-5">
+                                    <select class="form-control p-0" name="type">
+                                        <option>Select Type</option>
+                                        <option value="Text" <?php if($sul->type == 'Text') { ?>  selected="selected"<?php } ?>>Text</option>
+                                        <option value="Image" <?php if($sul->type == 'Image') { ?> selected="selected"<?php } ?>>Image</option>
+                                        <option value="Heading" <?php if($sul->type == 'Heading') { ?> selected="selected"<?php } ?>>Heading</option>
+                                    </select>
+                                    </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="form-group mb-5 focused">
                                         <input type="file" class="form-control" name="image"   id="input2">
@@ -44,15 +54,11 @@
                                         <label for="input3">Title</label>
                                     </div>
                                     </div>
-                                    <div class="col-md-3">
-                                    <div class="form-group mb-5">
-                                    <select class="form-control p-0 custom-select" required name="target">
-                                        <option value="_blank" <?php if($sul->target == '_blank') { ?>  selected="selected"<?php } ?>>Blank</option>
-                                        <option value="_self" <?php if($sul->target == '_self') { ?> selected="selected"<?php } ?>>Self</option>
-                                    </select>
-                                    <span class="bar"></span>
-                                        <label for="input6">Select Target</label>
-                                    </div>
+                                    <div class="col-md-3">     
+                                        <div class="form-group mb-5">
+                                        <textarea class="form-control p-0" name="link"><?php echo $sul->link  ?></textarea>                                            <span class="bar"></span>
+                                            <label for="input3">Link</label>
+                                        </div>
                                     </div>
                                     <div class="col-md-3">
                                     <div class="form-group mb-5">
@@ -64,16 +70,7 @@
                                     </select>
                                     </div>
                                     </div>
-                                    <div class="col-md-3">
-                                    <div class="form-group mb-5">
-                                    <select class="form-control p-0" name="type">
-                                        <option>Select Type</option>
-                                        <option value="Text" <?php if($sul->type == 'Text') { ?>  selected="selected"<?php } ?>>Text</option>
-                                        <option value="Image" <?php if($sul->type == 'Image') { ?> selected="selected"<?php } ?>>Image</option>
-                                        <option value="Heading" <?php if($sul->type == 'Heading') { ?> selected="selected"<?php } ?>>Heading</option>
-                                    </select>
-                                    </div>
-                                    </div>
+                                  
                                     <div class="col-md-3">   
                                     <div class="form-group mb-5">
                                         <label>Short Description</label>
@@ -89,6 +86,18 @@
                                     <button type="submit" class="btn btn-info">Submit</button>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+                  </div>
+                </div>
+              </div>
+            
+                 <!----tables---->
+                 
+      
+<?php admin_footer(); ?> 
+
+                         </form>
                             </div>
                         </div>
                   </div>

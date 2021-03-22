@@ -1,33 +1,33 @@
 <div class="container">
   <div class="foottop">
-  <div class="row">
-  <?php $menus = $this->db->where('footer','active')->where('status','active')->like('footer')->get('tbl_menu');
-      foreach($menus->result() as $menu){		
-         ?> 
-       <div class="col-lg col-md-8 ml-lg-auto">
-       <h3> <?php echo $menu->name ?></h3>
-       <ul>
-         <?php $sub_menus =  $this->db->where('footer','active')->where('status','active')->where("menu_name",$menu->id)->like('footer')->get('tbl_submenu'); //echo $this->db->last_query(); ?>
-        <?php  foreach($sub_menus->result() as $submenu){		?>
-          <li><a href="<? echo base_url().$submenu->sub_menu_link ?>" target="<? echo $submenu->sub_menu_target ?>"><? echo $submenu->sub_menu_name ?></a></li>
-          <? } ?>  
-        </ul>
-       </div>
-    <?php } ?>
+    <div class="row">
+      <?php $menus = $this->db->where('footer','active')->where('status','active')->like('footer')->get('tbl_menu');
+        foreach($menus->result() as $menu){		
+          ?> 
+        <div class="col-lg-3 col-md-6 ml-lg-auto">
+            <h3> <?php echo $menu->name ?></h3>
+            <ul>
+              <?php $sub_menus =  $this->db->where('footer','active')->where('status','active')->where("menu_name",$menu->id)->like('footer')->get('tbl_submenu'); //echo $this->db->last_query(); ?>
+              <?php  foreach($sub_menus->result() as $submenu){		?>
+                <li><a href="<? echo base_url().$submenu->sub_menu_link ?>" target="<? echo $submenu->sub_menu_target ?>"><? echo $submenu->sub_menu_name ?></a></li>
+                <? } ?>  
+              </ul>
+          </div>
+      <?php } ?>
 
    
-      <div class="col-md-4 bord  justify-content-centers">
-      <? $contact = json_decode($this->db->get_where("tbl_options",["option_name"=>"contact"])->row()->option_value); ?>
+      <div class="col-lg-3 col-md-6 bord  justify-content-centers">
+        <? $contact = json_decode($this->db->get_where("tbl_options",["option_name"=>"contact"])->row()->option_value); ?>
         <h3>Like Our Solutions?</h3>
-        <!-- <p><?php //echo $contact->details; ?></p> -->
-        <div class="media text-center">
-          <div class="tc-fc"> <img class="media-object" src="http://www.dotcom-team.com/wp-content/themes/Unified_Dotcom/images/phone_icon.png" alt=""> </div>
-          <div class="tc-fc"> <?php echo $contact->mobile_number ?> </div>
-          <div class="tc-fc"> <img class="media-object" src="http://www.dotcom-team.com/wp-content/themes/Unified_Dotcom/images/mail_icon.png" alt=""> </div>
-          <div class="tc-fc"><a href="<?php echo $contact->email ?>"><?php echo $contact->email ?></a> </div>
+        <div class=" justify-content-center text-center">
+            <div class="tc-fc">
+              <i class="fa fa-phone" aria-hidden="true"></i> <?php echo $contact->mobile_number ?> 
+          </div>
+          <div class="tc-fc">
+              <i class="fa fa-envelope" aria-hidden="true"></i><a href="<?php echo $contact->email ?>"> <?php echo $contact->email ?></a>
+          </div>
         </div>
       </div>
-      <?php //} ?>
     </div>
   </div>
 </div>
@@ -79,6 +79,9 @@
 
 </body>
 </html>
+<!-- <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit">
+</script> -->
+<script src='https://www.google.com/recaptcha/api.js'></script>
 
 <script type='text/javascript' src="<? echo base_url('assets/front/js/blocks.js') ?>"></script>
 <script>
@@ -211,6 +214,7 @@
             url:"<?php echo base_url();?>sections/newpost/",
             type: 'GET',
             dataType: 'JSON',
+             data:{ blog:'<?php echo $this->input->get("blog") ?>'},
             success:function (data) {
               $('#post').html(data.newpost);
                //console.log(data);
@@ -245,6 +249,8 @@ function genericSocialShare(url){
             dataType: 'JSON',
           success:function (data) {
               $('#image_captcha').html(data.captcha);
+              //alert(data);
+              //console.log(data);
           },
           error:function(data){
             
@@ -276,13 +282,44 @@ function genericSocialShare(url){
                   }
                 },
                 error:function(data){
+                  $("#message").html(data);
+					console.log(data);
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#subscribe").on('submit', function(e) {
+          // /alert("submit");
+            e.preventDefault();
+            var contactForm = $(this);
+            $.ajax({
+                url: "<?php echo base_url();?>sections/subscribe",
+                type: 'post',
+                data: contactForm.serialize(),
+                dataType : "json",
+                success: function(response){
+                  if(response.success == "success"){
+                    $("#message").html(response.message);
+                    setTimeout(function() {
+                      location.reload();
+                    }, 3000);
+                  }else{
+                    $("#message").html(response.message);
+                    setTimeout(function() {
+                      location.reload();
+                    }, 3000);
+                  }
+                },
+                error:function(data){
                   $("#message").html(response.message);
                 }
             });
         });
     });
 </script>
-
 <script>
  $('.captcha-refresh').click(function() {
     location.reload();
@@ -290,7 +327,7 @@ function genericSocialShare(url){
 </script>
 <script>
     $(document).ready(function(){
-      //alert('categories');
+     
         $.ajax({
             url:"<?php echo base_url();?>sections/homebanner/",
             type: 'GET',
@@ -308,7 +345,6 @@ function genericSocialShare(url){
 
 <script>
     $(document).ready(function(){
-      //alert('categories');
         $.ajax({
             url:"<?php echo base_url();?>sections/feature_banner/",
             type: 'GET',
@@ -337,6 +373,24 @@ function genericSocialShare(url){
             },
             error:function(data){
               //console.log(data); 
+           }
+        });   
+   });
+</script>
+
+<script>
+    $(document).ready(function(){
+     
+        $.ajax({
+            url:"<?php echo base_url();?>sections/solutions_page/",
+            type: 'GET',
+            dataType: 'JSON',
+            success:function (data) {
+              $('#solution').html(data.solutions_page);
+               console.log(data);
+            },
+            error:function(data){
+              console.log(data); 
            }
         });   
    });

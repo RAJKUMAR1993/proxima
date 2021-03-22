@@ -83,6 +83,16 @@
                                                         <label for="input1">Link</label>
                                                     </div>
                                             </div>
+                                            <div class="col-md-3 featured-guests"  style='display:none;' >
+                                                    <div class="form-group mb-5 focused">
+                                                    <select class="form-control p-0" id="input6" name="target" required>
+                                                 <option>Select Target</option>
+                                                 <option value="_blank">Blank</option>
+                                                 <option value="_self">Self</option>
+                                                    </select><span class="bar"></span>
+                                                    <label for="input6">Target</label>
+                                                    </div>
+                                             </div>
                                             <div class="col-md-12 "  id="short_desc">
                                             <label for="input1">Description</label>
                                                     <div class="form-group mb-5 " >
@@ -92,14 +102,6 @@
                                                     </div>
                                             </div>
                                        
-                                            <!-- <div class="col-md-12 featured-guests"  style='display:none;' >
-                                                    <div class="form-group mb-5 focused">
-                                                    <textarea class="form-control p-0 summernote"  name="short_desc"  rows="4" cols="50"></textarea>
-                                                        <span class="bar"></span>
-                                                        <label for="input1"></label>
-                                                    </div>
-                                            </div> -->
-                                        
                                             <div class="col-md-3">
                                             <button type="submit" class="btn btn-info ">Submit</button>
                                             </div>
@@ -194,54 +196,7 @@ $('#file_export').on('switchChange.bootstrapSwitch','input[name="switch"]', func
  });
 
 </script>
-<script type="text/javascript">
-    $(".menu_icon").on("change",function(){
-        var menu_id = $(this).attr("menu_id");
-        $("#menu_icon").val(menu_id);
-        });
-	$(".main_icon").on("change",function(){
-		var main_id = $(this).attr("main_id");
-		$("#main_icon").val(main_id);
-	});
 
-    function archiveFunction(id) {
-         //alert(id);
-            Swal({
-        title: 'Are you sure?',
-        text: 'You will not be able to recover this selected menu!',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, keep it'
-        }).then((result) => {
-        if (result.value) {
-
-            Swal(
-            'Deleted!',
-            'Your Selected Menu has been deleted.',
-            'success'
-            )
-            $.ajax({
-                method: 'POST',
-                data: {'id' : id },
-                url: '<?php echo base_url() ?>admin/podcast/del_slider/'+id,
-                success: function(data) {
-                    location.reload();   
-                }
-            });
-        
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            Swal(
-            'Cancelled',
-            'Your Selected Menu is safe :)',
-            'success',
-            
-            )
-        }
-    })
-    }
-	
-</script>
 <script type="text/javascript">
     $(".menu_icon").on("change",function(){
         var menu_id = $(this).attr("menu_id");
@@ -326,15 +281,16 @@ $('#types').on('change', function () {
 
 });
 
+$('#types').on('change', function () {
+    if (this.value == 'host') {
+     
+        $("#host").show();
+    } else {
+       
+        $("#host").hide();
+    }
 
-</script>
-<script>
-    CKEDITOR.replace('descriptions');
-</script>
 });
 
 
-</script>
-<script>
-    CKEDITOR.replace('descriptions');
 </script>

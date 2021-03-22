@@ -189,7 +189,6 @@ class Menus extends MY_Controller {
 		$n = $this->db->insert("tbl_submenu",$data);
 		if($n){
 			$this->session->set_flashdata("success"," Successfully Added","success");
-				//$this->alert->pnotify("success"," Successfully Added","success");
 				redirect("admin/menus/footer_submenu/".$mname);
 		}else{
 			$this->session->set_flashdata("error","Error Occured While Adding ","error");
@@ -283,5 +282,27 @@ class Menus extends MY_Controller {
 		} 
 		
 	}	
-  
+	public function arrange_menus(){
+
+		$this->load->view('admin/menus/arrange_menus');
+	}
+	public function get_submenu(){
+		$id = $this->input->post("id");
+			$data1 = [];
+			$i=0;
+			$sub = $this->db->where("menu_name",$id)->where("deleted",0)->where("status","Active")->where("header","Active")->order_by("sort")->like("menu_type","header")->get("tbl_submenu")->result_array();
+			//echo  $this->db->last_query();die;
+			$key = 1;
+				foreach($sub as $row){	
+
+				echo '<li class="dd-item" data-id='.$key.' data-mid='.$row['id'].'">
+					<div class="dd-handle">'.$row['sub_menu_name'].'</div>
+				</li>';
+				$key++;
+			}
+				
+		
+	}
+
+	
 }

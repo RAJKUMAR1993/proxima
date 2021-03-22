@@ -53,6 +53,13 @@
                                             <span class="d-none d-lg-block">Contact Email</span>
                                         </a>
                                     </li>
+
+                                    <li class="nav-item">
+                                        <a href="#settings-b5" data-toggle="tab" aria-expanded="false" class="nav-link">
+                                            <i class="mdi mdi-settings-outline d-lg-none d-block mr-1"></i>
+                                            <span class="d-none d-lg-block">Subscribers Email</span>
+                                        </a>
+                                    </li>
                                 </ul>
 
                                 <div class="tab-content">
@@ -172,7 +179,9 @@
 											<div class="row">
 												<div class="col-md-3">
 													<div class="form-group ">
-														<input type="text" class="form-control" name="contact_email" value="<?php echo $contact_email->option_value;?>" id="input2" >
+                          <textarea class="form-control p-0" name="contact_email"><?php echo $contact_email->option_value;?></textarea>                                            <span class="bar"></span>
+
+														<!-- <input type="text" class="form-control" name="contact_email" value="<?php //echo $contact_email->option_value;?>" id="input2" > -->
 														<span class="bar"></span>
 														<label for="input2">Contact Email</label>
 													</div>
@@ -186,6 +195,28 @@
                     </form>
                 </div>
 
+                
+                <div class="tab-pane" id="settings-b5">
+										<form id="subscribers" class="floating-labels mt-4" >
+												<input type="hidden" id="url5" name="url5" value="<?php echo base_url("admin/settings/updatesubscribers_email"); ?>">
+											<div class="row">
+												<div class="col-md-3">
+													<div class="form-group ">
+                          <textarea class="form-control p-0" name="subscribers_email"><?php echo $subscribe->option_value;?></textarea>                                            <span class="bar"></span>
+
+														<!-- <input type="text" class="form-control" name="contact_email" value="<?php //echo $contact_email->option_value;?>" id="input2" > -->
+														<span class="bar"></span>
+														<label for="input2">Subscribers Email</label>
+													</div>
+												</div>
+											
+											
+												<div class="col-md-2">
+													<button type="submit" class="btn btn-success" id="msubmit"> <i class="fa fa-check"></i> Update</button>
+												</div>
+											</div>
+                    </form>
+                </div>
 
 
 
@@ -369,4 +400,47 @@
   });
 
    });
+
+   $(document).ready(function() {
+	 
+   $("#subscribers").on('submit', function(e){
+ //	alert(url);
+      e.preventDefault();
+      var formData = new FormData(this);
+      var url = $('#url5').val();
+      $.ajax({
+       url:url,
+       data:formData,
+       type:"post",
+       dataType:"json",
+       cache:false,
+     contentType: false,
+     processData: false,
+       beforeSend: function(){
+         $("#loader").show();
+       },
+       success: function(str){
+         //   alert(str);
+         console.log(str);
+         $("#loader").hide();
+         if(str.Status == 'Active'){
+           $("#smsg").show();
+           $("#smsg").html(str.Message);
+           setTimeout(function(){ location.reload(); }, 1000);  
+         }else{
+           $("#emsg").show();
+           $("#emsg").html(str.Message);
+         }
+       },
+       error: function(str){
+           //alert(str);
+         console.log(str);
+         
+       },
+       });
+   });
+ 
+    });
+
+
 </script>

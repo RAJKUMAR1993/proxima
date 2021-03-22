@@ -9,12 +9,17 @@ class Solutions extends MY_Controller {
 	}
 
 	public function index(){
+		$solution = $this->db->query("SELECT * FROM tbl_solutions WHERE type != 'heading'")->result();
         $data["solutions"] = $this->db->get_where("tbl_solutions",array("deleted"=> 0))->result();
-        //print_r($data["publicationns"]);die;
 		$this->load->view('admin/solutions/solutions',$data);	
 		
 	}
 	
+	public function list_new(){
+        $data["subscribe"] = $this->db->get_where("tbl_subscribers")->result();
+		$this->load->view('admin/solutions_list',$data);	
+
+     } 
     private function clean($string) {
         $string = str_replace(" ", "-", $string); // Replaces all spaces with hyphens.  
         $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
@@ -22,7 +27,7 @@ class Solutions extends MY_Controller {
     }
     public function add(){
 		$text_area = $this->input->post("text_area",true);
-		$target = $this->input->post("target",true);
+		$link = $this->input->post("link",true);
 		$date = date("Y-m-d H:i:s");
 		$alignment = $this->input->post("alignment");
 		$type = $this->input->post("type");
@@ -49,14 +54,13 @@ class Solutions extends MY_Controller {
             "image" => $picture,
 			"title"=>$text_area,
 			"alignment"=> $alignment,
-			"link" =>strtolower(($this->clean($text_area))),
-			"target" => $target,
+			"link" => $link,
 			"type" => $type,
 			"short_desc" => $short_desc,
             "created_date"=> $date,
 			
         );
-        // echo "<pre/>";print_r($data );die;
+         //echo "<pre/>";print_r($data );die;
 		$p = $this->db->insert("tbl_solutions",$data);
 			
 			if($p){
@@ -79,7 +83,7 @@ class Solutions extends MY_Controller {
     public function edit(){
         $id = $this->input->post("id");
 		$text_area = $this->input->post("text_area",true);
-		$target = $this->input->post("target",true);
+		$link = $this->input->post("link",true);
 		$date = date("Y-m-d H:i:s");
 		$alignment = $this->input->post("alignment");
 		$type = $this->input->post("type");
@@ -109,8 +113,8 @@ class Solutions extends MY_Controller {
 				"image" => $picture,
 				"title"=>$text_area,
 				"alignment"=> $alignment,
-				"link" =>strtolower(($this->clean($text_area))),
-				"target" => $target,
+				"link" =>$link,
+			//	"target" => $target,
 				"type" => $type,
 				"short_desc" => $short_desc,
                 "updated_date"=> $date,

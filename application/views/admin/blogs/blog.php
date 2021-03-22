@@ -49,13 +49,34 @@
                                 <label for="input3">Title</label>
                             </div>
                         </div>
-                        <div class="col-md-3">    
+                        <div class="col-md-3">
+                        <?php $category = $this->db->get_where("tbl_categories")->result();
+                        
+                        
+                        ?>
+                                    <div class="form-group mb-5">
+                                        <select class="form-control p-0" id="input6" name="category" required>
+                                            <option>Select Category</option>
+                                         <?php foreach($category as $cat){
+                                           $cat_sel = ($bolg_edit->category == $cat->category) ? 'selected' : '';
+
+                                           ?>
+                                            <option value="<?php echo $cat->category ;?>" <? echo $cat_sel ?> ><?php echo $cat->category ;?></option>
+                                            
+                                            <?php } ?>
+                                        </select><span class="bar"></span>
+                                        <label for="input6">Category</label>
+                                    </div>
+                                    </div>
+
+
+                        <!-- <div class="col-md-3">    
                             <div class="form-group mb-5">
-                                <input type="text" class="form-control" value="<? echo isset($bolg_edit->category) ? $bolg_edit->category : '' ?>" name="category" id="input3" required>
+                                <input type="text" class="form-control" value="<? //echo isset($bolg_edit->category) ? $bolg_edit->category : '' ?>" name="category" id="input3" required>
                                 <span class="bar"></span>
                                 <label for="input3">Category</label>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-3">    
                             <div class="form-group mb-5">
                                 <input type="text" class="form-control" value="<? echo isset($bolg_edit->posted_by) ? $bolg_edit->posted_by : '' ?>" name="posted_by" id="input3" required>

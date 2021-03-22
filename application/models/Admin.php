@@ -14,9 +14,21 @@ class Admin extends CI_Model{
 		
 	}
 	
-	
+	public function send_email($subject,$email,$msg,$from_email){
+		
+		$from = new SendGrid\Email("Proxima", $from_email);
+		$to = new SendGrid\Email("Proxima",$email);
 
-		public function insertoption($option_name,$option_value){
+		$content = new SendGrid\Content("text/html",$msg);
+		$mail = new SendGrid\Mail($from, $subject, $to, $content);
+		$sg = new \SendGrid('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');
+		$response = $sg->client->mail()->send()->post($mail);
+		
+//		return $response;
+		
+	}
+
+	public function insertoption($option_name,$option_value){
 		$on=$this->db->get_where("fdm_va_options",array('option_name'=>$option_name));
 		$os=$on->num_rows();
 		if($os=='0'){
@@ -193,6 +205,71 @@ class Admin extends CI_Model{
 		
 		
 	}
+	public function google_captcha(){
+		$captcha_response = trim($this->input->post('g-recaptcha-response'));
+
+		if($captcha_response != '')
+		{
+			$keySecret = '6LefzNYZAAAAABWAiYy2_X2OiBSZkXdT7K-OoaKW';
+			$check = array(
+				'secret'		=>	$keySecret,
+				'response'		=>	$this->input->post('g-recaptcha-response')
+			);
+			$startProcess = curl_init();
+			curl_setopt($startProcess, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+			curl_setopt($startProcess, CURLOPT_POST, true);
+			curl_setopt($startProcess, CURLOPT_POSTFIELDS, http_build_query($check));
+			curl_setopt($startProcess, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($startProcess, CURLOPT_RETURNTRANSFER, true);
+			$receiveData = curl_exec($startProcess);
+			$finalResponse = json_decode($receiveData, true);
+			// /echo $finalResponse; exit;
+			
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// $recaptchaResponse = trim($this->input->post('g-recaptcha'));
+		
+        // $userIp=$this->input->ip_address();
+		// $credential = array(
+          
+        //     'response' => $this->input->post('g-recaptcha')
+        // );
+ 
+        // $secret = $this->config->item('6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe');
+        // $url="https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$recaptchaResponse."&remoteip=".$userIp;
+		// $ch = curl_init(); 
+        // curl_setopt($ch, CURLOPT_URL, $url); 
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+		// curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($credential));
+
+        // $output = curl_exec($ch); 
+        // curl_close($ch);      
+         
+        // $status= json_decode($output, true);
+
+	//}
+
+
+
+
+
+
+
+
 
 
 	public function moduleCheck(){

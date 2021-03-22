@@ -117,9 +117,10 @@ new PNotify({
     ['para', ['ul', 'ol', 'paragraph']],
     ['height', ['height']],
     ['table', ['table']],
-   // ['insert', ['link', 'picture', 'hr']],
+    ['insert', ['link', 'picture', 'hr']],
     ['view', ['fullscreen', 'codeview']],
-    ['help', ['help']]
+    ['help', ['help']],
+    [ 'fontsize', [ 'fontsize' ] ],
   ],
   height: 350,
 });

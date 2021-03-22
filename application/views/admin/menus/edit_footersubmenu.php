@@ -8,7 +8,8 @@
                     <h3 class="text-themecolor mb-0">Sub Menus</h3>
                     <ol class="breadcrumb mb-0 p-0 bg-transparent">
                         <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>admin/dashboard">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>admin/menus/updatefootersubmenu">Sub Menus</a></li>
+                        <li class="breadcrumb-item">
+                            <a href="<?php echo base_url(); ?>admin/menus/footer_submenu">Sub Menus</a></li>
                     </ol>
                 </div>
             </div>

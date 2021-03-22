@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require_once(APPPATH.'libraries/sendgrid/sendgrid-php.php');
 class Sections extends CI_Controller {
 
 	public function __construct(){
@@ -8,9 +8,9 @@ class Sections extends CI_Controller {
 			parent::__construct();
 	}
 
-	public function index(){
+public function index(){
 		
-		$solh = $this->db->get_where("tbl_solutions",array("alignment"=> "left","deleted"=> 0,"type"=>"Heading"))->row(); 
+		$solh = $this->db->order_by("id","desc")->get_where("tbl_solutions",array("alignment"=> "left","deleted"=> 0,"type"=>"Heading"))->row(); 
 		$html= '';
 		$html.= '<div class="container">
 		<div class="row">
@@ -20,16 +20,16 @@ class Sections extends CI_Controller {
 		$sol = $this->db->get_where("tbl_solutions",array("alignment"=> "left","deleted"=> 0,"type !="=>"Heading"))->result(); 
 		
 		foreach($sol as $s){    
-			
 				if($s->type == 'Text'){
-					$html.= ' <div class="blue-box"> <span><a href="#"><img src="assets/front/images/arrow.png"/></a></span>
-							<h2>'.$s->title.'</h2>
-							<p>'.$s->short_desc.' </p>
-							</div>';
+
+						$html.= ' <div class="blue-box"> <span><a href="'.$s->link.'"><img src="assets/front/images/arrow.png"/></a></span>
+								<h2>'.$s->title.'</h2>
+								<p>'.$s->short_desc.' </p>
+								</div>';
 				}else{
 					$html.= ' <div class="img-box">';
 					$html.= ' <img src="'.$s->image.'" class="img-fluid" />';
-					$html.= '  <div class="text_details"><span><a href="#"><img src="assets/front/images/arrow.png"/></a></span>
+					$html.= '  <div class="text_details"><span><a href="'.$s->link.'"><img src="assets/front/images/arrow.png"/></a></span>
 						<div class="clearfix"></div>
 						<h4> '.$s->title.'</h4>
 						</div>
@@ -42,21 +42,21 @@ class Sections extends CI_Controller {
 								foreach($sol_right as $sol){
 			$html.= ' <div class="img-box"> 
 								<img src="'.$sol->image.'" class="img-fluid">
-								<div class="text_details"><span><a href="#"><img src="assets/front/images/arrow.png"/></a></span>
+								<div class="text_details"><span><a href="'.$sol->link.'"><img src="assets/front/images/arrow.png"/></a></span>
 									<div class="clearfix"></div>
 									<h4> '.$sol->title.' </h4>
 								</div>
 								</div><br><br><br>';
 			} 
-			$html.= ' <div class="img"> <a href="solutions"> More Solutions <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> </a> </div></div>
+			$html.= ' <div class="img"> 
+			<a href="solutions"> More Solutions <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> </a> </div></div>
 			
 		</div>
 	</div>';
 
 		echo json_encode(["solution"=>$html]);
 
-	}
-	
+	}	
 	public function publications(){
 		
 		$publications = $this->db->order_by("id","desc")->get_where("tbl_blog",["status"=>"Active","deleted"=>0],3)->result();
@@ -69,7 +69,7 @@ class Sections extends CI_Controller {
 				$html .= '<div class="col-lg-4 col-md-12 jasgrid">
 							<div class="box-item">
 							  <div class="box-post"> 
-								<h3 class="post-title"> <a href="inner-blog?blog='.$p->blog_link.'"> '.substr($p->title,0,30).'... </a> </h3>
+								<h3 class="post-title"> <a href="inner-blog?blog='.$p->blog_link.'"> '.substr($p->title,0,60).'... </a> </h3>
 								<span class="meta"> <span><i class="glyphicon glyphicon-time"></i> '.date("M d, Y",strtotime($p->created_date)).'</span> </span> </div>
 							  <img src="'.$p->image.'" alt="" class="img-fluid"> </div>
 						  </div>';
@@ -137,6 +137,7 @@ class Sections extends CI_Controller {
     }
 
 	public function aboutStory(){
+	    error_reporting(0);
 		$story = $this->db->get_where("tbl_stories",array("deleted"=> 0))->result();
 
 		$i = 1;
@@ -224,10 +225,36 @@ class Sections extends CI_Controller {
 								<h2 class="post-title bold">
 									<a href="inner-blog?blog='.$b->blog_link.'">'.substr($b->title,0,60).'...</a>
 								</h2>
-								<a href="#" class="read-more">View More</a>
+								<a href="inner-blog?blog='.$b->blog_link.'" class="read-more">View More</a>
 							</div>
 						</div>
 				</div>';			
+
+
+
+
+
+
+
+					
+		// $html.='<div class="col-md-6 col-lg-4 col-12  blog-padding-right">
+		// 			<div class="single-blog two-column">
+		// 				<div class="post-thumb">
+		// 					<a href="inner-blog?blog='.$b->blog_link.'"><img src="'.$b->image.'" class="img-fluid" alt=""></a>
+		// 					<div class="post-overlay">
+		// 					  <span class="uppercase"><a href="javascript:void(0)">'.date("d", strtotime($b->created_date)).'<br><small>'.date("M", strtotime($b->created_date)).'</small></a></span>
+		// 					</div>
+		// 						</div>
+		// 					<div class="post-content overflow">
+		// 						<h2 class="post-title bold"><a href="inner-blog?blog='.$b->blog_link.'">'.$b->title.'</a></h2>
+		// 						<h3 class="post-author"><a>'.$b->posted_by.'</a></h3>
+		// 						<p>'.$b->short_desc.'[...]</p>
+		// 						<a href="inner-blog?blog='.$b->blog_link.'" class="read-more">View More</a>
+								
+		// 					</div>
+		// 				</div>
+		// 		    </div
+		// 	    </div>';
 		}
 			$html.='</div></div>';
 		echo json_encode(["blogs"=>$html]);
@@ -288,11 +315,12 @@ class Sections extends CI_Controller {
 		$html= '';
 		$html.='<h3>Recent Posts</h3>';
 		foreach($post->result() as $p) {
+
 		$html.='<div class="media">
-		      <a href="#" class="pull-left"><img src="'.$p->image.'" alt="" width="70px;" height="70px;"></a>
+		      <a href="inner-blog?blog='.$p->blog_link.'" class="pull-left"><img src="'.$p->image.'" alt="" width="70px;" height="70px;"></a>
 					
 					<div class="media-body">
-						<h4><a href="inner-blog">'.substr($p->title,0,32).'...</a></h4>
+						<h4><a href="inner-blog?blog='.$p->blog_link.'">'.substr($p->title,0,32).'...</a></h4>
 						<p>posted on  '.date('d F Y', strtotime($p->created_date)).'</p>
 					</div>';
 					
@@ -326,7 +354,7 @@ class Sections extends CI_Controller {
 
 	public function captcha(){
 		$html='';
-		$html.= '<p>'.$this->admin->generateCaptcha().'</p>';
+		$html.= '<p>'.$this->admin->google_captcha().'</p>';
 		 echo json_encode(["captcha"=>$html]);
 
 	}
@@ -348,6 +376,269 @@ class Sections extends CI_Controller {
 		$id = $this->db->insert("tbl_contact",$data);
 		
 		if($id){
+			
+			
+			// send email
+			$csubject = "Proxima360 Thank you for your enquiry.";
+			$subject = "Enquiry Information.";
+			$to = "social@proxima360.com";
+			$from = $this->input->post("email");
+			
+			
+		$usermsg = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+			<html xmlns="http://www.w3.org/1999/xhtml">
+			<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<title>Welcome</title>
+			<style>
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			a {
+				color: #333!important;
+				font-family: Arial, Helvetica, sans-serif;
+				text-decoration: none;
+			}
+			a:hover {
+				color: #000;
+			}
+			
+			.container {
+				margin: 0px auto;
+				width: 650px;
+				display: block;
+				overflow: hidden;
+			}
+			.link td a {
+				color: #fff!important;
+				text-decoration: none !important;
+			}
+			.link td a:hover {
+				color: #fff!important;
+			}
+			p {
+				padding: 0px !important;
+				margin: 0px !important;
+			}
+			.ebord{ border-collapse: collapse;}
+			
+			.ebord th{ font-family:Arial, Helvetica, sans-serif; color:#041e42; font-size:15px; font-weight:600; padding:10px; border:solid 1px #eee;}
+			.ebord td{ font-family:Arial, Helvetica, sans-serif; color:#041e42; font-size:15px; font-weight:500; padding:10px; border:solid 1px #eee;}
+			</style>
+			</head>
+			
+			<body>
+			<div class="container" style="width:650px; border:solid 1px #ccc;">
+			   <table width="650px" cellpadding="0" cellspacing="0"  style=" width:650px; overflow:hidden;">
+			   <tr>
+				  <td aling="center" bgcolor="#cca147" width="650px" height="5px"></td>
+				</tr>
+			   
+				<tr>
+				  <td align="center" bgcolor="#f9f9f9"><table>
+					  <tr>
+						<td align="center" valign="top" bgcolor="#f9f9f9"><img src="'.base_url('uploads/').$this->db->get_where("tbl_options",["option_name"=>"image"])->row()->option_value.'" alt="" style="display:block;" height="100%" width="353px"></td>
+					  </tr>
+					</table></td>
+				</tr>
+				<tr>
+			<td><table>
+			<tr>
+			<td width="60px"></td>
+			 <td align="left" valign="top" style="padding:15px 15px 0px 15px!important;"><p style="font-size:15px; color:#333;  padding-top:0px;"> Hello, <br /><br />
+					 Thank you for contacting Proxima. We appreciate your interest. <br>
+			
+					One of our team members will reach out to you in the next 24 to 48 hours, if not sooner. <br>
+			
+					We look forward to connecting! <br></p>
+					</td>
+			</tr>
+			</table>
+			</td>
+			
+			</tr>
+				<tr><td>&nbsp;</td></tr>
+				
+				
+				
+				<tr><td>
+			
+				</td>
+				</tr>
+				 <tr><td>&nbsp;</td></tr>
+				 <tr> <td align="left" valign="top" style="padding:15px 15px 0px 15px!important;">
+			
+				 <table><tr>
+			<td width="60px;"></td>
+			<td ><p style="font-size:15px; color:#333;  padding-top:0px;">Regards,<br/>
+			
+			Proxima360 </p></td>
+			</tr>
+			</table>
+			
+			</td></tr>
+			 <tr><td>&nbsp;</td></tr>
+				<tr>
+				   <td aling="center" bgcolor="#cca147" width="650px" height="5px"></td>
+				</tr>
+			  </table>
+			</div>
+			<br>
+
+			
+			</body>
+			</html>
+			';
+			
+		$clientmsg = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+			<html xmlns="http://www.w3.org/1999/xhtml">
+			<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<title>Welcome</title>
+			<style>
+			* {
+				margin: 0px;
+				padding: 0px;
+			}
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			a {
+				color: #333!important;
+				font-family: Arial, Helvetica, sans-serif;
+				text-decoration: none;
+			}
+			a:hover {
+				color: #000;
+			}
+			
+			.container {
+				margin: 0px auto;
+				width: 650px;
+				display: block;
+				overflow: hidden;
+			}
+			.link td a {
+				color: #fff!important;
+				text-decoration: none !important;
+			}
+			.link td a:hover {
+				color: #fff!important;
+			}
+			p {
+				padding: 0px !important;
+				margin: 0px !important;
+			}
+			.ebord{ border-collapse: collapse;}
+			
+			.ebord th{ font-family:Arial, Helvetica, sans-serif; color:#041e42; font-size:15px; font-weight:600; padding:10px; border:solid 1px #eee;}
+			.ebord td{ font-family:Arial, Helvetica, sans-serif; color:#041e42; font-size:15px; font-weight:500; padding:10px; border:solid 1px #eee;}
+			</style>
+			</head>
+			
+			<body>
+			<div class="container" style="width:650px; border:solid 1px #ccc;">
+			  <table width="650px" cellpadding="0" cellspacing="0"  style=" width:650px; overflow:hidden;">
+			   <tr>
+				  <td aling="center" bgcolor="#cca147" width="650px" height="5px"></td>
+				</tr>
+			   
+				<tr>
+				  <td align="center" bgcolor="#f9f9f9"><table>
+					  <tr>
+						<td align="center" valign="top" bgcolor="#f9f9f9"><img src="'.base_url('uploads/').$this->db->get_where("tbl_options",["option_name"=>"image"])->row()->option_value.'" alt="" style="display:block;" height="100%" width="353px"></td>
+					  </tr>
+					</table></td>
+				</tr>
+				<tr>
+				  <td align="left" valign="top" style="padding:15px 15px 0px 15px!important;"><p style="font-size:15px; color:#333;  padding-top:0px; "> 
+			
+			<table><tr>
+			<td width="60px;"></td>
+			<td >Hello, <br /><br />
+					  Please find below New Website enquiry details for contact</p></td>
+			</tr>
+			</table>
+			
+			
+			
+				  
+					</td>
+				</tr>
+				<tr><td>&nbsp;</td></tr>
+				
+				
+				
+				<tr><td>
+				  
+				 <table>
+				 <tr>
+			<td width="60px;"></td>
+			
+			<td > <table width="500px" cellpadding="0" cellspacing="0"  style=" width:500px; overflow:hidden;" class="ebord">
+				<tr>
+				<th width="250px" align="right">Name:</th>
+				<td>'.$this->input->post("name").'</td>
+				</tr>
+				
+				 <tr>
+			  <th width="250px" align="right">Email:</th>
+				<td>'.$this->input->post("email").'</td>
+				</tr>
+				
+				 <tr>
+				<th width="250px" align="right">Purpose:</th>
+				<td>'.$this->input->post("purpose").'</td>
+				</tr>
+				
+				
+				
+				  <tr>
+				<th width="250px" align="right">Message:</th>
+				<td>'.$this->input->post("message").'</td>
+				</tr>
+				
+				
+				</table></td>
+			</tr>
+				 </table> 
+				 
+				</td>
+				</tr>
+				 <tr><td>&nbsp;</td></tr>
+				 <tr> <td align="left" valign="top" style="padding:15px 15px 0px 15px!important;">
+			
+			<table><tr>
+			<td width="60px;"></td>
+			<td ><p style="font-size:15px; color:#333;  padding-top:0px;">Regards,<br/>
+			
+			Proxima360 </p></td>
+			</tr>
+			</table>
+			
+			
+			
+				 
+			</td></tr>
+			 <tr><td>&nbsp;</td></tr>
+				<tr>
+				   <td align="center" bgcolor="#cca147" width="650px" height="5px"></td>
+				</tr>
+			  </table>
+			  
+			</div>
+			
+			</body>
+			</html>
+			';	
+			
+			$this->admin->send_email($csubject,$from,$usermsg,$to);
+			$this->admin->send_email($subject,$to,$clientmsg,$from);
+			
 			echo json_encode(["status"=>"success","message"=>"<div class='alert alert-success'>We have received your request successfully, We'll contact you soon.</div>"]);
 		}else{
 
@@ -357,6 +648,7 @@ class Sections extends CI_Controller {
 	}   
 
 	public function feature_banner(){
+	    error_reporting(0);
 		$feature_banner = $this->db->get_where("tbl_podcast_slider",array("type"=> "featured-guests"))->result(); 
 
 		$html='';
@@ -374,7 +666,7 @@ class Sections extends CI_Controller {
 			<div class="row justify-content-md-center ">
 		<div class="col-lg-9 text-center">
 		<p>'. $feature->short_desc.'</p>
-		<a href="'.$feature->link.'">
+			<a href="'.$feature->link.'" target="'.$feature->target.'">
 		<button class=" black_box "> '.$feature->button_name.' </button>
 		</a> </div>
 		<div class="col-lg-3 text-center"><img src="'.$feature->image.'"  class="img-fluid"/>
@@ -388,19 +680,20 @@ class Sections extends CI_Controller {
 		$html.='</div></div>';
 		echo json_encode(["feature_banner"=>$html]);
 	}
+	
 	public function  homebanner(){
 			$slider = $this->db->get_where("tbl_podcast_slider",array("type"=> "home-banner"))->result(); 
 			$html='';
 				//$link = str_replace(" ","-",$cat->category);
 			$html.= '<div class="container">
-			<div id="demo" class="carousel slide" data-ride="carousel">
+			<div id="demo" class="carousel slide" data-ride="carousel" data-pause="false" data-interval="2000">
 		
-		  <!-- Indicators -->
-		  <ul class="carousel-indicators">
-			<li data-target="#demo" data-slide-to="0" class="active"></li>
-			<li data-target="#demo" data-slide-to="1"></li>
-			<li data-target="#demo" data-slide-to="2"></li>
-		  </ul>';
+		  <ul class="carousel-indicators">';
+		    foreach($slider as $k1 => $home_slider1 ){
+		        $active = ($k1 == 0) ? 'active' : '';
+    			$html.= '<li data-target="#demo" data-slide-to="'.$k1.'" class="'.$active.'"></li>';
+		    }
+		  	$html.= '</ul>';
 		  
 	
 		  $html.= '<div class="carousel-inner">';
@@ -428,6 +721,7 @@ class Sections extends CI_Controller {
 		echo json_encode(["homebanner"=>$html]);
 
 	}
+	
 	public function host(){
 		$host =$this->db->get_where("tbl_podcast_slider",array("type"=>"host"))->result(); 
 		
@@ -465,6 +759,46 @@ class Sections extends CI_Controller {
 		   
 		  $html.='</div></div>';
 		  echo json_encode(["host"=>$html]);
+	}
+	
+	 //subscribe news latter//
+	 public function subscribe(){
+		$email = $this->input->post("email",true);
+	    $data = [
+	
+			"email"=> $this->input->post("email"),
+		];
+		$subscribe = $this->db->insert("tbl_subscribers",$data);
+		if($subscribe){
+			echo json_encode(["status"=>"success","message"=>"<div class='alert alert-success'>Subscribe successfully.</div>"]);
+		}else{
+
+			echo json_encode(["status"=>"error","message"=>"<div class='alert alert-danger'>Error Occured  </div>"]);
+		}
+		
+	}   
+	
+	public function solutions_page(){
+	$solution = $this->db->query("SELECT * FROM tbl_solutions WHERE  type != 'heading'")->result();
+		$html = '';
+		$html.= '<div class="container">
+					<div class="row">';
+					foreach($solution as $solutions_page){ 
+		$html.= '<div class="col-md-6 col-lg-4 col-12  blog-padding-right">';
+					
+		$html.= '<div class="single-blog two-column">
+							<div class="post-thumb img-box"> <a href="blogdetails.html"><img src="'.$solutions_page->image.'" class="img-fluid" alt=""></a> </div>
+							<div class="post-content overflow">
+								<h2 class="post-title bold"><a href="#">'.$solutions_page->title.'</a></h2>
+								<a href="#" class="read-more">View More</a> </div>
+							</div>';
+						
+							$html.= '</div>';
+						}
+		$html.='</div>
+		        </div>';
+		echo json_encode(["solutions_page"=>$html]);
+
 	}
 	
 }

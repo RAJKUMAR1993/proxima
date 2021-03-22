@@ -13,8 +13,9 @@ class Settings extends MY_Controller {
 		$data['contact'] = json_decode($this->db->get_where("tbl_options",["option_name"=>"contact"])->row()->option_value);
 		$data['img'] = $this->db->get_where("tbl_options",["option_name"=>"image"])->row();
 		$data['copy_rights'] = $this->db->get_where("tbl_options",["option_name"=>"copyright"])->row();
-
 		$data['contact_email'] = $this->db->get_where("tbl_options",["option_name"=>"contact_email"])->row();
+		$data['subscribe'] = $this->db->get_where("tbl_options",["option_name"=>"subscribers_email"])->row();
+
 		
 		$this->load->view('admin/settings',$data);	
 		
@@ -32,8 +33,16 @@ class Settings extends MY_Controller {
 		exit();
 		
 	}
+	
+	public function updatecontact_email(){
+	
+        $this->db->where("id",12)->update("tbl_options",["option_value"=> $this->input->post("contact_email"),"option_name" => "contact_email",]);
+		$this->session->set_flashdata("vmsg",'<div class="alert alert-success">Updated Successfully</div>');
+		redirect("admin/settings");
+	}
+	
 	public function updatsocial_links(){
-		//echo "fvnfd";die;
+		
 	$data = [
 		"facebook"=>$this->input->post("facebook"),
 		"instagram"=>$this->input->post("instagram"),
@@ -101,11 +110,11 @@ class Settings extends MY_Controller {
 		$this->session->set_flashdata("vmsg",'<div class="alert alert-success">Updated Successfully</div>');
 		redirect("admin/settings");
 	}
+  
+	public function updatesubscribers_email(){
 	
-	public function updatecontact_email(){
-	
-        $this->db->where("id",12)->update("tbl_options",["option_value"=> $this->input->post("contact_email"),"option_name" => "contact_email",]);
-  //	echo $this->db->last_query();die;
+        $this->db->where("id",13)->update("tbl_options",["option_value"=> $this->input->post("subscribers_email"),"option_name" => "subscribers_email",]);
+		//echo $this->db->last_query();die;
 		$this->session->set_flashdata("vmsg",'<div class="alert alert-success">Updated Successfully</div>');
 		redirect("admin/settings");
 	}

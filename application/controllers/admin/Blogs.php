@@ -8,7 +8,8 @@ class Blogs extends MY_Controller {
 			parent::__construct();
 	}
 
-	public function index(){
+	public function index($id=""){
+		$data['bolg_edit'] = $this->db->get_where("tbl_blog",array("id"=>$id))->row();
      $data["blog"] = $this->db->get_where("tbl_blog",array("deleted"=> 0))->result();
 	//echo "<pre/>"; print_r(  $data["blog"]);die;
 		$this->load->view('admin/blogs/blog',$data);	

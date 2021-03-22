@@ -393,35 +393,44 @@
          
           <div class="menu-toggle">
             <h3>Menu</h3>
-            <button type="button" id="menu-btn"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+            <button type="button" id="menu-btn"> <span class="icon-bar">
+
+            </span> <span class="icon-bar"></span> <span class="icon-bar">
+
+            </span>
+           </button>
           </div>
           <!-- Responsive Menu Structure--> 
           <!--Note: declare the Menu style in the data-menu-style="horizontal" (options: horizontal, vertical, accordion) -->
           <?php $header = $this->db->where('header','active')->where('status','active')->like('header')->get("tbl_menu");
 	
           ?> 
-          <ul id="respMenu" class="ace-responsive-menu" data-menu-style="horizontal">
-              <?php  foreach($header->result() as $head){ ?>
-                <li> <a href="<? echo base_url().$head->link ?>"> <span class="title"> <?php echo  $head->name; ?></span> </a>
-                      <?php $sub_menus =  $this->db->where('header','active')
+          <ul id="respMenu" class="ace-responsive-menu" data-menu-style="horizontal">     
+                      <?php  foreach($header->result() as $head){ ?>
+                  <li>
+                   <a href="<? echo base_url().$head->link ?>"> <span class="title"> <?php echo  $head->name; ?></span>
+                    </a>
+                               <?php $sub_menus =  $this->db->where('header','active')
                                                     ->where('status','active')
                                                     ->where("menu_name",$head->id)
                                                     ->like('menu_type','header')
                                                     ->get("tbl_submenu");
 														 
-						if(count($sub_menus->result()) > 0){ 								 
-                      ?>
+					                             	if(count($sub_menus->result()) > 0){ 	?>
                       <ul>
-                   <?php  foreach($sub_menus->result() as $sub){ ?>
+                            <?php  foreach($sub_menus->result() as $sub){ ?>
                         
                        
-                          <li><a href="<? echo base_url().$sub->sub_menu_link ?>"><?php echo $sub->sub_menu_name ?></a></li>
+                            <li>
+                             <a href="<? echo base_url().$sub->sub_menu_link ?>"><?php echo $sub->sub_menu_name ?>
+                              </a>
+                            </li>
                          
                         
-                        <?php } ?> 
-                        </ul>
+                          <?php } ?> 
+                      </ul>
                      <? } ?>   
-                </li>
+                   </li>
               <?php } ?>
           </ul>
               
