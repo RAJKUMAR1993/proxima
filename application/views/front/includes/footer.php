@@ -17,14 +17,17 @@
 
    
       <div class="col-lg-3 col-md-6 bord  justify-content-centers">
-        <? $contact = json_decode($this->db->get_where("tbl_options",["option_name"=>"contact"])->row()->option_value); ?>
-        <h3>Like Our Solutions?</h3>
+        <? $contact = json_decode($this->db->get_where("tbl_options",["option_name"=>"contact"])->row()->option_value);
+          $like_our_solutions = $this->db->get_where("tbl_options",["option_name"=>"like_our_solutions"])->row()->option_value; 
+        
+        ?>
+        <h3><?php echo  $like_our_solutions ?></h3>
         <div class=" justify-content-center text-center">
             <div class="tc-fc">
               <i class="fa fa-phone" aria-hidden="true"></i> <?php echo $contact->mobile_number ?> 
           </div>
           <div class="tc-fc">
-              <i class="fa fa-envelope" aria-hidden="true"></i><a href="<?php echo $contact->email ?>"> <?php echo $contact->email ?></a>
+              <i class="fa fa-envelope" aria-hidden="true"></i><a href="<?php echo $contact->email ?>"><?php echo $contact->email ?></a>
           </div>
         </div>
       </div>
@@ -43,7 +46,7 @@
         </div>
         <p></p>
       </div>
-      <div class="col-md-4 col-sm-6 col-xs-12 navbar-right">
+      <!-- <div class="col-md-4 col-sm-6 col-xs-12 navbar-right">
         <div class="textwidget">
           <ul class="navbar-right">
             <li><a href="">Home</a></li>
@@ -55,9 +58,11 @@
             <li><a href="#">Terms of Use</a></li>
           </ul>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
+</div>
+
 </div>
 
 <script src="<? echo base_url() ?>assets/front/js/asmenu.js"></script> 
@@ -79,33 +84,10 @@
 
 </body>
 </html>
-<!-- <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit">
-</script> -->
 <script src='https://www.google.com/recaptcha/api.js'></script>
-
 <script type='text/javascript' src="<? echo base_url('assets/front/js/blocks.js') ?>"></script>
 <script>
-	
-	var active = '';
-	var next = null;
-	$('#carousel-example-generic').on('slide.bs.carousel', function () {
 
-		$('.carousel-indicators li').each(function () {
-			if ($(this).hasClass('active')) {
-				active = $(this).data('slide-to');
-				console.log(active);
-				next = $(this).next('li').data('slide-to');
-			}
-		});
-		$('body').removeClass('slide' + active);
-		if (typeof next === 'undefined') {
-			$('body').addClass('slide1');
-		} else {
-			$('body').addClass('slide' + next);
-		}
-
-	});
-	
     $(document).ready(function(){
         $.ajax({
             url:"<?php echo base_url();?>sections/",
@@ -214,7 +196,6 @@
             url:"<?php echo base_url();?>sections/newpost/",
             type: 'GET',
             dataType: 'JSON',
-             data:{ blog:'<?php echo $this->input->get("blog") ?>'},
             success:function (data) {
               $('#post').html(data.newpost);
                //console.log(data);
@@ -249,8 +230,6 @@ function genericSocialShare(url){
             dataType: 'JSON',
           success:function (data) {
               $('#image_captcha').html(data.captcha);
-              //alert(data);
-              //console.log(data);
           },
           error:function(data){
             
@@ -269,7 +248,7 @@ function genericSocialShare(url){
                 data: contactForm.serialize(),
                 dataType : "json",
                 success: function(response){
-                  if(response.success == "success"){
+                  if(response.status == "success"){
                     $("#message").html(response.message);
                     setTimeout(function() {
                       location.reload();
@@ -301,7 +280,7 @@ function genericSocialShare(url){
                 data: contactForm.serialize(),
                 dataType : "json",
                 success: function(response){
-                  if(response.success == "success"){
+                  if(response.status == "success"){
                     $("#message").html(response.message);
                     setTimeout(function() {
                       location.reload();
@@ -328,18 +307,32 @@ function genericSocialShare(url){
 <script>
     $(document).ready(function(){
      
-        $.ajax({
+       /* $.ajax({
             url:"<?php echo base_url();?>sections/homebanner/",
             type: 'GET',
             dataType: 'JSON',
             success:function (data) {
               $('#banner').html(data.homebanner);
                //console.log(data);
+               
+               <? //$uri = $this->uri->segment(1); 
+                  //if(!$uri){
+               ?>
+                    $(".page-loader-wrapper").hide();
+                    $("#loadamar").show();
+                <? //} ?>
             },
             error:function(data){
               // console.log(data); 
+              
+               <? //$uri = $this->uri->segment(1); 
+                  //if(!$uri){
+               ?>
+                    $(".page-loader-wrapper").hide();
+                    $("#loadamar").show();
+                <? //} ?>
            }
-        });   
+        });   */
    });
 </script>
 
@@ -351,12 +344,17 @@ function genericSocialShare(url){
             dataType: 'JSON',
             success:function (data) {
               $('#feature').html(data.feature_banner);
+              
+              $('#demo1').carousel({
+                  interval: 2000
+                })
                //console.log(data);
             },
             error:function(data){
               // console.log(data); 
            }
-        });   
+        }); 
+        
    });
 </script>
 
@@ -370,6 +368,9 @@ function genericSocialShare(url){
             success:function (data) {
               $('#host').html(data.host);
                //console.log(data);
+               $('#demo').carousel({
+                  interval: 2000
+                })
             },
             error:function(data){
               //console.log(data); 
@@ -388,10 +389,20 @@ function genericSocialShare(url){
             success:function (data) {
               $('#solution').html(data.solutions_page);
                console.log(data);
+               
             },
             error:function(data){
               console.log(data); 
+              
            }
         });   
    });
+   
+  /* setTimeout(function(){
+    $(".page-loader-wrapper").hide();
+    $("#loadamar").show();
+      
+   },5000);*/
+//   $(".page-loader-wrapper").hide();
+   
 </script>
