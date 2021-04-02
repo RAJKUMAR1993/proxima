@@ -18,7 +18,7 @@ class Sections extends CI_Controller {
 
 
 
-public function index(){
+	public function index(){
 
 		
 
@@ -48,13 +48,13 @@ public function index(){
 
 
 
-						$html.= ' <div class="blue-box"> <span><a href="'.$s->link.'"><img src="assets/front/images/arrow.png"/></a></span>
+						$html.= '<a href="'.$s->link.'"> <div class="blue-box"> <span><img src="assets/front/images/arrow.png"/></span>
 
 								<h2>'.$s->title.'</h2>
 
 								<p>'.$s->short_desc.' </p>
 
-								</div>';
+								</div> </a>';
 
 				}else{
 
@@ -62,7 +62,7 @@ public function index(){
 
 					$html.= ' <img src="'.$s->image.'" class="img-fluid" />';
 
-					$html.= '  <div class="text_details"><span><a href="'.$s->link.'"><img src="assets/front/images/arrow.png"/></a></span>
+					$html.= ' <a href="'.$s->link.'"> <div class="text_details"><span><img src="assets/front/images/arrow.png"/></span>
 
 						<div class="clearfix"></div>
 
@@ -70,7 +70,7 @@ public function index(){
 
 						</div>
 
-					</div>';
+					</div></a>';
 
 				} 
 
@@ -90,13 +90,13 @@ public function index(){
 
 								<img src="'.$sol->image.'" class="img-fluid">
 
-								<div class="text_details"><span><a href="'.$sol->link.'"><img src="assets/front/images/arrow.png"/></a></span>
+								<a href="'.$sol->link.'"><div class="text_details"><span><img src="assets/front/images/arrow.png"/></span>
 
 									<div class="clearfix"></div>
 
 									<h4> '.$sol->title.' </h4>
 
-								</div>
+								</div></a>
 
 								</div><br><br><br>';
 
@@ -180,7 +180,7 @@ public function index(){
 
             $html.='<div class="container"><div class="row  text-center">';
 
-                    $team = $this->db->get_where("tbl_team",array("status"=> "active","deleted"=> 0))->result(); 
+                    $team = $this->db->get_where("tbl_team",array("status"=> "active","deleted"=> 0,"advisor"=>NULL))->result(); 
 
                     foreach($team as $key => $tm){  
 
@@ -236,6 +236,96 @@ public function index(){
 
                  <div class="col-lg-3 col-12 text-center"> <img src="'.$tm->image.'"  class="img-fluid"/><br/>
 
+
+                 </div>
+
+                 <div class="col-lg-9 col-12">
+
+                   <div class="team-border">
+
+                     <div id="dc-team-quote">'.$tm->short_desc.'</div>
+
+                     <div class="member-name">'.$tm->name.'</div>
+
+                     <div class="member-job">'.$tm->designation.'</div>
+
+                   </div>
+
+                   <p>'.$tm->long_desc.'</p>
+
+                 </div>
+
+               </div>
+
+             </div>
+
+           </div>
+
+         </div>
+
+       </div></div>';
+
+        }
+		
+		
+		$ateam = $this->db->get_where("tbl_team",array("status"=> "active","deleted"=> 0,"advisor"=>"on"))->result(); 
+		if(count($ateam) > 0){
+		$html .= '</div><hr>
+		<div class="clearfix"></div>
+		<h2>Advisor</h2><br>
+		<div class="row text-center">';
+		
+
+                    foreach($ateam as $key => $tm){  
+
+            $html.='
+
+            <div class="col-lg-3 col-md-6 col-12">';
+
+            $html.='<div class="tbox">';
+
+           
+
+                $html.='<div class="soc">
+
+                <ul>
+
+                  <li><a href="'.$tm->linkdin_acc.'" target="_blank" ><img src="assets/front/images/linkedin.png"  /></a></li>
+
+                  <li><a href="#costumModal1'.$key.'" data-toggle="modal"><img src="assets/front/images/bio.png"  /></a></li>
+
+                </ul>
+
+              </div>
+
+              <img src="'.$tm->image.'"  class="img-fluid"/>
+
+              <p>'.$tm->name.'</p>
+
+              <small>'.$tm->designation.'</small>';
+
+          
+
+           $html.='</div>';
+
+         $html.='<div id="costumModal1'.$key.'" class="modal " data-easein="bounce" role="dialog" aria-labelledby="costumModalLabel" aria-hidden="true">
+
+         <div class="modal-dialog modal-lg">
+
+           <div class="modal-content">
+
+             <div class="modal-header">
+
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> × </button>
+
+             </div>
+
+             <div class="modal-body">
+
+               <div class="row">
+
+                 <div class="col-lg-3 col-12 text-center"> <img src="'.$tm->image.'"  class="img-fluid"/><br/>
+
                    
 
                    
@@ -271,7 +361,7 @@ public function index(){
         }
 
          $html.=' </div></div></div>';
-
+		}
 
 
       echo json_encode(["team"=>$html]);
@@ -725,8 +815,6 @@ public function index(){
 	}
 
 	public function contact_insert(){
-
-		
 
 		$captcha = $this->input->post("g-recaptcha-response");
 
@@ -1304,8 +1392,6 @@ public function index(){
 
 	}   
 
-
-
 	public function feature_banner(){
 
 	    error_reporting(0);
@@ -1371,8 +1457,6 @@ public function index(){
 		echo json_encode(["feature_banner"=>$html]);
 
 	}
-
-	
 
 	public function  homebanner(){
 
@@ -1453,8 +1537,6 @@ public function index(){
 
 	}
 
-	
-
 	public function host(){
 
 		$host =$this->db->get_where("tbl_podcast_slider",array("type"=>"host"))->result(); 
@@ -1481,15 +1563,14 @@ public function index(){
 
 					
 
-		$html.='   <ul class="carousel-indicators">
+		$html.='   <ul class="carousel-indicators">';
+		
+					foreach($host as $k1 => $hosts ){
+						$act = ($k1 == 0) ? 'active' : '';
+						$html.='<li data-target="#demo" data-slide-to="'.$k1.'" class="'.$act.'"></li>';
+					}
 
-						<li data-target="#demo" data-slide-to="0" class="active"></li>
-
-						<li data-target="#demo" data-slide-to="1"></li>
-
-						<li data-target="#demo" data-slide-to="2"></li>
-
-					</ul>';
+					$html.='</ul>';
 
 			
 
@@ -1515,14 +1596,14 @@ public function index(){
 
 		            <span class="carousel-control-prev-icon"></span> 
 
-		         </a>
-
-				<a href="#demo" data-slide="next" class="carousel-control-next">
+		         </a>';
+			if(count($host) > 1){	
+				$html.='<a href="#demo" data-slide="next" class="carousel-control-next">
 
 				    <span class="carousel-control-next-icon"></span> 
 
 				 </a>';
-
+			}
 		   
 
 		  $html.='</div></div>';
@@ -1531,31 +1612,446 @@ public function index(){
 
 	}
 
-	
 
 	 //subscribe news latter//
 
 	 public function subscribe(){
 
 		$email = $this->input->post("email",true);
+		 
+		$echk = $this->db->get_where("tbl_subscribers",["email"=>$email])->num_rows();
+		if($echk > 0){
+			echo json_encode(["status"=>"error","message"=>"<div class='alert alert-danger'>Already Subscribed</div>"]);
+			exit();
+		} 
+		 
 
 	    $data = [
-
-	
-
 			"email"=> $this->input->post("email"),
-
 		];
 
 		$subscribe = $this->db->insert("tbl_subscribers",$data);
 
 		if($subscribe){
 
+						// send email
+
+			$csubject = "Proxima360 Thank you for your subscribing.";
+
+			$subject = "Subscriber Details";
+
+			$to = explode(",",$this->admin->get_option("subscribers_email"));
+
+			$from = $this->input->post("email");
+
+			
+
+			
+
+		$usermsg = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+			<html xmlns="http://www.w3.org/1999/xhtml">
+
+			<head>
+
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+			<title>Welcome</title>
+
+			<style>
+
+			* {
+
+				margin: 0px;
+
+				padding: 0px;
+
+			}
+
+			body {
+
+				font-family: Arial, Helvetica, sans-serif;
+
+			}
+
+			a {
+
+				color: #333!important;
+
+				font-family: Arial, Helvetica, sans-serif;
+
+				text-decoration: none;
+
+			}
+
+			a:hover {
+
+				color: #000;
+
+			}
+
+			
+
+			.container {
+
+				margin: 0px auto;
+
+				width: 650px;
+
+				display: block;
+
+				overflow: hidden;
+
+			}
+
+			.link td a {
+
+				color: #fff!important;
+
+				text-decoration: none !important;
+
+			}
+
+			.link td a:hover {
+
+				color: #fff!important;
+
+			}
+
+			p {
+
+				padding: 0px !important;
+
+				margin: 0px !important;
+
+			}
+
+			.ebord{ border-collapse: collapse;}
+
+			
+
+			.ebord th{ font-family:Arial, Helvetica, sans-serif; color:#041e42; font-size:15px; font-weight:600; padding:10px; border:solid 1px #eee;}
+
+			.ebord td{ font-family:Arial, Helvetica, sans-serif; color:#041e42; font-size:15px; font-weight:500; padding:10px; border:solid 1px #eee;}
+
+			</style>
+
+			</head>
+
+			
+
+			<body>
+
+			<div class="container" style="width:650px; border:solid 1px #ccc;">
+
+			   <table width="650px" cellpadding="0" cellspacing="0"  style=" width:650px; overflow:hidden;">
+
+			   <tr>
+
+				  <td aling="center" bgcolor="#cca147" width="650px" height="5px"></td>
+
+				</tr>
+
+			   
+
+				<tr>
+
+				  <td align="center" bgcolor="#f9f9f9"><table>
+
+					  <tr>
+
+						<td align="center" valign="top" bgcolor="#f9f9f9"><img src="'.base_url('uploads/').$this->db->get_where("tbl_options",["option_name"=>"image"])->row()->option_value.'" alt="" style="display:block;" height="100%" width="353px"></td>
+
+					  </tr>
+
+					</table></td>
+
+				</tr>
+
+				<tr>
+
+			<td><table>
+
+			<tr>
+
+			<td width="60px"></td>
+
+			 <td align="left" valign="top" style="padding:15px 15px 0px 15px!important;">
+			 	<p style="font-size:15px; color:#333;  padding-top:0px;">
+					 Thank you for subscribing Proxima360. We appreciate your interest. </p>
+
+			 </td>
+
+			</tr>
+
+			</table>
+
+			</td>
+
+			</tr>
+
+				<tr><td>&nbsp;</td></tr>
+
+				<tr><td>
+
+				</td>
+
+				</tr>
+
+				 <tr><td>&nbsp;</td></tr>
+
+				 <tr> <td align="left" valign="top" style="padding:15px 15px 0px 15px!important;">
+
+				 <table><tr>
+
+			<td width="60px;"></td>
+
+			<td ><p style="font-size:15px; color:#333;  padding-top:0px;">Regards,<br/>
+
+			Proxima360 </p></td>
+
+			</tr>
+
+			</table>
+
+			</td></tr>
+
+			 <tr><td>&nbsp;</td></tr>
+
+				<tr>
+
+				   <td aling="center" bgcolor="#cca147" width="650px" height="5px"></td>
+
+				</tr>
+
+			  </table>
+
+			</div>
+
+			<br>
+			</body>
+
+			</html>
+
+			';
+
+		$clientmsg = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+			<html xmlns="http://www.w3.org/1999/xhtml">
+
+			<head>
+
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+			<title>Welcome</title>
+
+			<style>
+
+			* {
+
+				margin: 0px;
+
+				padding: 0px;
+
+			}
+
+			body {
+
+				font-family: Arial, Helvetica, sans-serif;
+
+			}
+
+			a {
+
+				color: #333!important;
+
+				font-family: Arial, Helvetica, sans-serif;
+
+				text-decoration: none;
+
+			}
+
+			a:hover {
+
+				color: #000;
+
+			}
+
+			
+
+			.container {
+
+				margin: 0px auto;
+
+				width: 650px;
+
+				display: block;
+
+				overflow: hidden;
+
+			}
+
+			.link td a {
+
+				color: #fff!important;
+
+				text-decoration: none !important;
+
+			}
+
+			.link td a:hover {
+
+				color: #fff!important;
+
+			}
+
+			p {
+
+				padding: 0px !important;
+
+				margin: 0px !important;
+
+			}
+
+			.ebord{ border-collapse: collapse;}
+
+			.ebord th{ font-family:Arial, Helvetica, sans-serif; color:#041e42; font-size:15px; font-weight:600; padding:10px; border:solid 1px #eee;}
+
+			.ebord td{ font-family:Arial, Helvetica, sans-serif; color:#041e42; font-size:15px; font-weight:500; padding:10px; border:solid 1px #eee;}
+
+			</style>
+
+			</head>
+
+			<body>
+
+			<div class="container" style="width:650px; border:solid 1px #ccc;">
+
+			  <table width="650px" cellpadding="0" cellspacing="0"  style=" width:650px; overflow:hidden;">
+
+			   <tr>
+
+				  <td aling="center" bgcolor="#cca147" width="650px" height="5px"></td>
+
+				</tr>
+
+			   
+
+				<tr>
+
+				  <td align="center" bgcolor="#f9f9f9"><table>
+
+					  <tr>
+
+						<td align="center" valign="top" bgcolor="#f9f9f9"><img src="'.base_url('uploads/').$this->db->get_where("tbl_options",["option_name"=>"image"])->row()->option_value.'" alt="" style="display:block;" height="100%" width="353px"></td>
+
+					  </tr>
+
+					</table></td>
+
+				</tr>
+
+				<tr>
+
+				  <td align="left" valign="top" style="padding:15px 15px 0px 15px!important;"><p style="font-size:15px; color:#333;  padding-top:0px; "> 
+
+			<table><tr>
+
+			<td width="60px;"></td>
+
+			<td >Hello, <br /><br />
+
+					  Please find below subscriber details.</p></td>
+
+			</tr>
+
+			</table>
+
+					</td>
+
+				</tr>
+
+				<tr><td>&nbsp;</td></tr>
+
+				<tr><td>
+
+				 <table>
+
+				 <tr>
+
+			<td width="60px;"></td>
+
+			<td > <table width="500px" cellpadding="0" cellspacing="0"  style=" width:500px; overflow:hidden;" class="ebord">
+
+				 <tr>
+
+			  <th width="250px" align="right">Email:</th>
+
+				<td>'.$email.'</td>
+
+				</tr>
+
+				
+
+				</table></td>
+
+			</tr>
+
+				 </table> 
+
+				 
+
+				</td>
+
+				</tr>
+
+				 <tr><td>&nbsp;</td></tr>
+
+				 <tr> <td align="left" valign="top" style="padding:15px 15px 0px 15px!important;">
+
+			
+
+			<table><tr>
+
+			<td width="60px;"></td>
+
+			<td ><p style="font-size:15px; color:#333;  padding-top:0px;">Regards,<br/>
+
+			Proxima360 </p></td>
+
+			</tr>
+
+			</table>
+
+			</td></tr>
+
+			 <tr><td>&nbsp;</td></tr>
+
+				<tr>
+
+				   <td align="center" bgcolor="#cca147" width="650px" height="5px"></td>
+
+				</tr>
+
+			  </table>
+
+			  
+
+			</div>
+
+			</body>
+
+			</html>
+
+			';	
+
+
+			$this->admin->send_email($csubject,$from,$usermsg,$to[0],"user");
+			$this->admin->send_email($subject,$to,$clientmsg,$from,"client");
+
 			echo json_encode(["status"=>"success","message"=>"<div class='alert alert-success'>Subscribe successfully.</div>"]);
 
 		}else{
-
-
 
 			echo json_encode(["status"=>"error","message"=>"<div class='alert alert-danger'>Error Occured  </div>"]);
 

@@ -1,13 +1,13 @@
 <div class="container">
   <div class="foottop">
     <div class="row">
-      <?php $menus = $this->db->where('footer','active')->where('status','active')->like('footer')->get('tbl_menu');
+      <?php $menus = $this->db->where('footer','active')->where('status','active')->like('menu_type','footer')->get('tbl_menu');
         foreach($menus->result() as $menu){		
           ?> 
         <div class="col-lg-3 col-md-6 ml-lg-auto">
             <h3> <?php echo $menu->name ?></h3>
             <ul>
-              <?php $sub_menus =  $this->db->where('footer','active')->where('status','active')->where("menu_name",$menu->id)->like('footer')->get('tbl_submenu'); //echo $this->db->last_query(); ?>
+              <?php $sub_menus =  $this->db->where('footer','active')->order_by('sort','asc')->where('status','active')->where("menu_name",$menu->id)->like('menu_type','footer')->get('tbl_submenu'); //echo $this->db->last_query(); ?>
               <?php  foreach($sub_menus->result() as $submenu){		?>
                 <li><a href="<? echo base_url().$submenu->sub_menu_link ?>" target="<? echo $submenu->sub_menu_target ?>"><? echo $submenu->sub_menu_name ?></a></li>
                 <? } ?>  

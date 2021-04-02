@@ -594,7 +594,7 @@
 
       error: function(str){
 
-          //alert(str);
+ 
 
         console.log(str);
 
@@ -620,7 +620,7 @@
 
   $("#updatsocial_links").on('submit', function(e){
 
-//	alert(url);
+
 
      e.preventDefault();
 
@@ -652,7 +652,7 @@
 
       success: function(str){
 
-        //   alert(str);
+ 
 
         console.log(str);
 
@@ -678,7 +678,7 @@
 
       error: function(str){
 
-          //alert(str);
+      
 
         console.log(str);
 
@@ -701,12 +701,9 @@
 <script>
 
   $(document).ready(function() {
-
-	 
-
   $("#updatcopy_rights").on('submit', function(e){
 
-//	alert(url);
+
 
      e.preventDefault();
 
@@ -738,7 +735,7 @@
 
       success: function(str){
 
-        //   alert(str);
+
 
         console.log(str);
 
@@ -764,7 +761,7 @@
 
       error: function(str){
 
-          //alert(str);
+        
 
         console.log(str);
 
@@ -792,11 +789,11 @@
 
   $("#contact_email").on('submit', function(e){
 
-//	alert(url);
+
 
      e.preventDefault();
 
-     var formData = new FormData(this);
+     var formData = $(this).serialize();
 
      var url = $('#url4').val();
 
@@ -810,12 +807,6 @@
 
       dataType:"json",
 
-      cache:false,
-
-	  contentType: false,
-
-	  processData: false,
-
       beforeSend: function(){
 
         $("#loader").show();
@@ -824,7 +815,7 @@
 
       success: function(str){
 
-        //   alert(str);
+     
 
         console.log(str);
 
@@ -850,7 +841,6 @@
 
       error: function(str){
 
-          //alert(str);
 
         console.log(str);
 
@@ -874,7 +864,6 @@
 
    $("#subscribers").on('submit', function(e){
 
- //	alert(url);
 
       e.preventDefault();
 
@@ -906,7 +895,6 @@
 
        success: function(str){
 
-         //   alert(str);
 
          console.log(str);
 
@@ -932,7 +920,7 @@
 
        error: function(str){
 
-           //alert(str);
+
 
          console.log(str);
 
@@ -958,7 +946,6 @@
 
    $("#subscribers").on('submit', function(e){
 
- // alert(url);
 
       e.preventDefault();
 
@@ -990,7 +977,6 @@
 
        success: function(str){
 
-         //   alert(str);
 
          console.log(str);
 
@@ -1016,7 +1002,7 @@
 
        error: function(str){
 
-           //alert(str);
+      
 
          console.log(str);
 
@@ -1044,7 +1030,7 @@ $(document).ready(function() {
 
    $("#like_our_solutions").on('submit', function(e){
 
-  // alert(url);
+ 
 
       e.preventDefault();
 
@@ -1076,7 +1062,7 @@ $(document).ready(function() {
 
        success: function(str){
 
-         //   alert(str);
+      
 
          console.log(str);
 
@@ -1102,7 +1088,6 @@ $(document).ready(function() {
 
        error: function(str){
 
-           //alert(str);
 
          console.log(str);
 
